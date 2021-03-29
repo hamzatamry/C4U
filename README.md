@@ -1,5 +1,5 @@
 # Description de l'application C4U
-Android app for short sighted people
+Application Android pour les personnes myopes
 
 ## Cahier de charges
 1.  Contexte et définition du problème
@@ -40,12 +40,12 @@ Avec l'age la vision humaine
 *   TAMRY Hamza
     1.   Capteurs de mouvements.
     2.   Géolocalisation.
-    3.   Caméra - Image en texte - Pièces de monnaie image en texte (devise, valeur, occurrence, total)
+    3.   Caméra - Image en texte - Pièces de monnaie image en texte (devise, valeur, occurrence, total).
 *   SABOUR Zakaria
     1.   Gestures.
     2.   Texte en audio.
 *   TAZI Rida
-    1.   Caméra - Image en texte - Pièces de monnaie image en texte (devise, valeur, occurrence, total)
+    1.   Caméra - Image en texte - Pièces de monnaie image en texte (devise, valeur, occurrence, total).
     2.   Audio en action.
 *   TAMTAOUI Abdelwadoud
     1.   Caméra - Image en texte - Image contenant du texte en texte.
