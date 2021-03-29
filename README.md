@@ -25,8 +25,8 @@ Avec l'age la vision humaine
     *   Audio en action.
     *   Caméra.
         *   Image en texte 
-            *   X Pièces de monnaie image en texte (devise, valeur, occurrence, total).
-            *   X Image contenant du texte en texte.
+            *   Pièces de monnaie image en texte (devise, valeur, occurrence, total).
+            *   Image contenant du texte en texte.
     *   Géolocalisation.
     *   Gestures.
     *   Capteurs de mouvements.
