@@ -4,20 +4,15 @@ Application Android pour les personnes myopes
 ## Cahier de charges
 1.  Contexte et définition du problème
 ```
-Avec l'age la vision humaine
+Avec l'age la vision humaine se dégrade, note application vient en aide aux personnes myopes, 
+elle leur facilite les différentes taches quotidiennes.
 ```
 2.  Objectif du projet
 ```
-
+Mettre en oeuvre nos aquics dans le développement mobile android et ses différentes fonctionnalités
+natives
 ```
-3.  Périmètre
-```
-
-```
-4.  Description fonctionnelle des besoins
-    *   besoin1
-    *   
-    *   
+3.  Description fonctionnelle des besoins
 
 ## Fonctionnalités
 *   Basiques
