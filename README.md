@@ -3,9 +3,21 @@ Android app for short sighted people
 
 ## Cahier de charges
 1.  Contexte et définition du problème
+```
+Avec l'age la vision humaine
+```
 2.  Objectif du projet
+```
+
+```
 3.  Périmètre
+```
+
+```
 4.  Description fonctionnelle des besoins
+    *   
+    *   
+    *   
 
 ## Fonctionnalités
 *   Image (Pieces de monnaire, ...) to text to speech
