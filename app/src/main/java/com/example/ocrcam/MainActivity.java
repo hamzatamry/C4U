@@ -7,9 +7,11 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.speech.tts.TextToSpeech;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,13 +19,20 @@ import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
 
     private ImageView imgView;
     private Button TakePicButt;
     private TextRecognizer recognizer;
     private TextView textView;
+    private Button ttsButton;
+    private EditText ttsText;
+    TextToSpeech textToSpeech;
     private static final int REQUEST_IMAGE_CAPTURE = 101;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +41,26 @@ public class MainActivity extends AppCompatActivity {
         imgView = findViewById(R.id.imageView);
         TakePicButt = findViewById(R.id.button);
         textView = findViewById(R.id.textView);
+        ttsButton = findViewById(R.id.button2);
+        ttsText = findViewById(R.id.editText);
+
+         textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR){
+                    textToSpeech.setLanguage(Locale.ENGLISH);
+                }
+            }
+        });
+        ttsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String ttsSpeech = ttsText.getText().toString();
+                textToSpeech.speak(ttsSpeech,TextToSpeech.QUEUE_FLUSH,null);
+
+            }
+        });
+
         TakePicButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,6 +70,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        textToSpeech.shutdown();
     }
 
 
