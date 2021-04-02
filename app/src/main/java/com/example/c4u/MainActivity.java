@@ -84,6 +84,6 @@ public class MainActivity extends AppCompatActivity
         System.out.println("LinearAccelerationSensor " + checkIfLinearAccelerationSensorExists());
         System.out.println("OrientationSensor " + checkIfOrientationSensorExists());
         System.out.println("RotationVectorSensor " + checkIfRotationVectorSensorExists());
-        System.out.println("GeomagneticRotationVectorSensor"+ checkIfGeomagneticRotationVectorSensorExists());
+        System.out.println("GeomagneticRotationVectorSensor "+ checkIfGeomagneticRotationVectorSensorExists());
     }
 }
