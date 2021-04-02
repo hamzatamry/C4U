@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity
 
     private Boolean checkIfGyroscopeSensorExists()
     {
-        return sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE_UNCALIBRATED) != null;
+        return sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE) != null;
     }
 
     private Boolean checkIfLinearAccelerationSensorExists()
@@ -64,6 +64,11 @@ public class MainActivity extends AppCompatActivity
         return sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR) != null;
     }
 
+    private Boolean checkIfGeomagneticRotationVectorSensorExists()
+    {
+        return sensorManager.getDefaultSensor(Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR) != null;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -72,11 +77,13 @@ public class MainActivity extends AppCompatActivity
 
         MainActivity.sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
 
+        checkSensorList();
         System.out.println("AccelerometerSensor " + checkIfAccelerometerSensorExists());
         System.out.println("GravitySensor " + checkIfGravitySensorExists());
         System.out.println("GyroscopeSensor " + checkIfGyroscopeSensorExists());
         System.out.println("LinearAccelerationSensor " + checkIfLinearAccelerationSensorExists());
         System.out.println("OrientationSensor " + checkIfOrientationSensorExists());
         System.out.println("RotationVectorSensor " + checkIfRotationVectorSensorExists());
+        System.out.println("GeomagneticRotationVectorSensor"+ checkIfGeomagneticRotationVectorSensorExists());
     }
 }
