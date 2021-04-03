@@ -6,6 +6,7 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.hardware.*;
+import android.util.Log;
 
 import java.io.DataOutputStream;
 import java.io.File;
@@ -13,13 +14,15 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity
 {
-    private static SensorManager sensorManager = null;
+    private SensorManager sensorManager = null;
 
     private void checkSensorList()
     {
@@ -69,13 +72,38 @@ public class MainActivity extends AppCompatActivity
         return sensorManager.getDefaultSensor(Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR) != null;
     }
 
+    private Boolean isStreamingSensor(Sensor sensor)
+    {
+        return sensor.getMinDelay() != 0;
+    }
+
+    private void checkSensorStreamingList()
+    {
+
+        List<Sensor> deviceSensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
+        Iterator<Sensor> listIterator = deviceSensors.iterator();
+
+        while (listIterator.hasNext())
+        {
+            Sensor sensor = listIterator.next();
+            System.out.println(sensor.toString() + " " + isStreamingSensor(sensor).toString());
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        MainActivity.sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
+        this.sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
+
+        Sensor accelerometerSensor = this.sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        checkSensorStreamingList();
+
+        /*
+
 
         checkSensorList();
         System.out.println("AccelerometerSensor " + checkIfAccelerometerSensorExists());
@@ -85,5 +113,10 @@ public class MainActivity extends AppCompatActivity
         System.out.println("OrientationSensor " + checkIfOrientationSensorExists());
         System.out.println("RotationVectorSensor " + checkIfRotationVectorSensorExists());
         System.out.println("GeomagneticRotationVectorSensor "+ checkIfGeomagneticRotationVectorSensorExists());
+        */
+
+
+
     }
+
 }
