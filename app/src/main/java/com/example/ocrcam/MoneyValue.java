@@ -5,8 +5,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.loader.content.AsyncTaskLoader;
 
-import com.example.ocrcam.NetworkUtils;
-
 public class MoneyValue extends AsyncTaskLoader<String> {
     private final String mQueryString;
 

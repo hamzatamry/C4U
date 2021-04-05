@@ -40,7 +40,7 @@ public class NetworkUtils {
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 Log.e("Upload error:", t.getMessage());
-                value ="Upload error";
+                value ="Upload error or server down";
             }
 
         });
