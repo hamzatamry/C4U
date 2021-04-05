@@ -5,15 +5,16 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -22,12 +23,24 @@ import static android.speech.RecognizerIntent.EXTRA_LANGUAGE;
 import static android.speech.RecognizerIntent.EXTRA_LANGUAGE_MODEL;
 import static android.speech.RecognizerIntent.LANGUAGE_MODEL_FREE_FORM;
 
-public class MainActivity extends AppCompatActivity {
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.MediaStore;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
+
+import java.io.ByteArrayOutputStream;
+
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>{
 
 
     private Button ocrBt;
     private Button geoBt;
     private Button moneyBt;
+    private TextView moneyVal;
     private Button voiceBt;
     private TextView textView;
     private Intent speechIntent;
@@ -39,11 +52,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        moneyBt = findViewById(R.id.moneyBt);
+        moneyBt.setOnClickListener(this::getMoneyValue);
+        //
         ocrBt = findViewById(R.id.ocrBt);
         geoBt = findViewById(R.id.geoBt);
-        moneyBt = findViewById(R.id.moneyBt);
+
         voiceBt = findViewById(R.id.voiceBt);
-        textView = findViewById(R.id.textView5);
+        textView = findViewById(R.id.moneyVal);
 
 
         ocrBt.setOnClickListener(new View.OnClickListener() {
@@ -142,6 +159,54 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //TAZI
+    @SuppressLint("SetTextI18n")
+    public void getMoneyValue(View view) {
+        Intent imgTakeIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        try {
+            startActivityForResult(imgTakeIntent,100);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "IMG_" + System.currentTimeMillis(), null);
+        return Uri.parse(path);
+    }
 
+    public String getRealPathFromURI(Uri uri) {
+        String path = "";
+        if (getContentResolver() != null) {
+            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+            if (cursor != null) {
+                cursor.moveToFirst();
+                int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+                path = cursor.getString(idx);
+                cursor.close();
+            }
+        }
+        return path;
+    }
+
+    @NonNull
+    @Override
+    public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
+        String queryString = "";
+        if (args != null) {
+            queryString = args.getString("queryString");
+        }
+        return new MoneyValue(this, queryString);
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<String> loader, String data) {
+        this.textView.setText(data);
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<String> loader) {
+    }
 
 }
