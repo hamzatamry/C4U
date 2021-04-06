@@ -2,8 +2,8 @@
 Android app for short sighted people
 
 ## Taches
-1.  Caméra - Image en texte - Pièces de monnaie image en texte (devise, valeur, occurrence, total).
-2.  Capteurs de mouvements.
+1.  Capteurs de mouvements.
+2.  Caméra - Image en texte - Pièces de monnaie image en texte (devise, valeur, occurrence, total).
 3.  Géolocalisation.
 
 ## My Sensor's list
