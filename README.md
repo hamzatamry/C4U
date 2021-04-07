@@ -1,20 +1,19 @@
 # Description de l'application C4U
 Application Android pour les personnes myopes
 
+## Videos de captures hebdomadaires
+*   [Videos de captures](https://drive.google.com/drive/folders/1s5DEG9MhZ2Z_znibDzHeM2-z-NPD4Blb?fbclid=IwAR3f6nvS9treE7b9epCUmL6xHOs4VVB50fBAiVJ9CiGaq48Vg1Qf144qKYY)
+
 ## Cahier de charges
 1.  Contexte et définition du problème
-```
-Avec l'age la vision humaine se dégrade, note application vient en aide aux personnes myopes, 
-elle leur facilite les différentes taches quotidiennes.
-```
+>   Avec l'age la vision humaine se dégrade, note application vient en aide aux personnes myopes, 
+>   elle leur facilite les différentes taches quotidiennes.
 2.  Objectif du projet
-```
-Mettre en oeuvre nos aquics dans le développement mobile android et ses différentes fonctionnalités
-natives
-```
+>   Mettre en oeuvre nos aquics dans le développement mobile android et ses différentes fonctionnalités
+>   natives
 3.  Description fonctionnelle des besoins
 
-## Fonctionnalités
+##  Fonctionnalités
 *   Basiques
     *   Texte en audio.
     *   Audio en action.
