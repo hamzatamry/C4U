@@ -27,25 +27,17 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity implements SensorEventListener
 {
     private SensorManager sensorManager = null;
-    TextView pitchTextView = null;
-    TextView rollTextView = null;
-    TextView azimuthTextView = null;
-
-    TextView orientationXTextView;
-    TextView orientationYTextView;
-    TextView orientationZTextView;
-    TextView Proximity;
-    TextView LightTextView;
-
-    TextView GeomagneticRotationX;
-    TextView GeomagneticRotationY;
-    TextView GeomagneticRotationZ;
-
-    private void registerSensorEventListener(int sensorType)
-    {
-        Sensor sensor = this.sensorManager.getDefaultSensor(sensorType);
-        this.sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
-    }
+    private TextView accelerationXTextView = null;
+    private TextView accelerationYTextView = null;
+    private TextView accelerationZTextView = null;
+    private TextView orientationXTextView = null;
+    private TextView orientationYTextView = null;
+    private TextView orientationZTextView = null;
+    private TextView proximityTextView = null;
+    private TextView lightTextView = null;
+    private TextView geomagneticRotationXTextView = null;
+    private TextView geomagneticRotationYTextView = null;
+    private TextView geomagneticRotationZTextView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -53,24 +45,23 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        pitchTextView = findViewById(R.id.Pitch);
-        rollTextView = findViewById(R.id.Roll);
-        azimuthTextView = findViewById(R.id.Azimuth);
-        orientationXTextView = findViewById(R.id.OrientationX);
-        orientationYTextView = findViewById(R.id.OrientationY);
-        orientationZTextView = findViewById(R.id.OrientationZ);
-        Proximity = findViewById(R.id.Proximity);
-        LightTextView = findViewById(R.id.LightSensor);
-        GeomagneticRotationX = findViewById(R.id.GeomagneticRotationX);
-        GeomagneticRotationY = findViewById(R.id.GeomagneticRotationY);
-        GeomagneticRotationZ = findViewById(R.id.GeomagneticRotationZ);
+        accelerationXTextView = findViewById(R.id.accelerationX);
+        accelerationYTextView = findViewById(R.id.accelerationY);
+        accelerationZTextView = findViewById(R.id.accelerationZ);
+        orientationXTextView = findViewById(R.id.orientationX);
+        orientationYTextView = findViewById(R.id.orientationY);
+        orientationZTextView = findViewById(R.id.orientationZ);
+        proximityTextView = findViewById(R.id.proximity);
+        lightTextView = findViewById(R.id.light);
+        geomagneticRotationXTextView = findViewById(R.id.geomagneticRotationX);
+        geomagneticRotationYTextView = findViewById(R.id.geomagneticRotationY);
+        geomagneticRotationZTextView = findViewById(R.id.geomagneticRotationZ);
 
         this.sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         registerSensorEventListener(Sensor.TYPE_ACCELEROMETER);
         registerSensorEventListener(Sensor.TYPE_ORIENTATION);
         registerSensorEventListener(Sensor.TYPE_PROXIMITY);
         registerSensorEventListener(Sensor.TYPE_LIGHT);
-        registerSensorEventListener(Sensor.);
         registerSensorEventListener(Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR);
     }
 
@@ -103,29 +94,35 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         switch (event.sensor.getType())
         {
             case Sensor.TYPE_ACCELEROMETER:
-                pitchTextView.setText("x    : " + event.values[0]);
-                rollTextView.setText("y : " + event.values[1]);
-                azimuthTextView.setText("z  : " + event.values[2]);
+                accelerationXTextView.setText("Acceleration x-axis: " + event.values[0]);
+                accelerationYTextView.setText("Acceleration y-axis: " + event.values[1]);
+                accelerationZTextView.setText("Acceleration z-axis: " + event.values[2]);
                 break;
             case Sensor.TYPE_ORIENTATION:
-                orientationXTextView.setText("z-axis (°)" + event.values[0]);
-                orientationYTextView.setText("x-axis (°)" + event.values[1]);
-                orientationZTextView.setText("y-axis (°)" + event.values[2]);
+                orientationXTextView.setText("Orientation x-axis: " + event.values[1]);
+                orientationYTextView.setText("Orientation y-axis: " + event.values[2]);
+                orientationZTextView.setText("Orientation z-axis: " + event.values[0]);
                 break;
             case Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR:
-                GeomagneticRotationX.setText("x * sin(θ/2): " + event.values[0]);
-                GeomagneticRotationY.setText("y * sin(θ/2): " + event.values[1]);
-                GeomagneticRotationZ.setText("z * sin(θ/2): " + event.values[2]);
+                geomagneticRotationXTextView.setText("Geomagnetic Rotation x-axis: " + event.values[0]);
+                geomagneticRotationYTextView.setText("Geomagnetic Rotation y-axis: " + event.values[1]);
+                geomagneticRotationZTextView.setText("Geomagnetic Rotation z-axis: " + event.values[2]);
                 break;
             case Sensor.TYPE_PROXIMITY:
-                Proximity.setText("cm: " + event.values[0]);
+                proximityTextView.setText("Proximity: " + event.values[0]);
                 break;
             case Sensor.TYPE_LIGHT:
-                LightTextView.setText("lx: " + event.values[0]);
+                lightTextView.setText("Illuminance: " + event.values[0]);
             default:
                 break;
         }
 
+    }
+
+    private void registerSensorEventListener(int sensorType)
+    {
+        Sensor sensor = this.sensorManager.getDefaultSensor(sensorType);
+        this.sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     private void checkSensorList()
