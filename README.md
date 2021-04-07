@@ -3,7 +3,7 @@ Android app for short sighted people
 
 ## Taches
 1.  Vérification des mesures des différents capteurs et choix des capteurs finales (capteur Accéléromètre, d'Orientation et de lumière).
-2.  Création d'un service pour la gestion des capteurs, et définition des différents mouvements de l'appareil ainsi que l'état d'environement qui vont déclencher par la suite\
+2.  Création d'un service pour la gestion des capteurs, et définition des différents mouvements de l'appareil ainsi que l'état d'environement qui vont déclencher par la suite
     différentes actions de l'utilisateur.
 3.  Ajout de la fonctionnalité de Géolocalisation.
 4.  Caméra - Image en texte - Pièces de monnaie image en texte (devise, valeur, occurrence, total).
