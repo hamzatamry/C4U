@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ public class MainActivity3 extends AppCompatActivity {
     private Intent speechIntent;
     private SpeechRecognizer speechRec;
     private final int MY_PERMISSIONS_RECORD_AUDIO = 1;
+    private String[] options = {"ocr", "argent", "localisation"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,10 +87,35 @@ public class MainActivity3 extends AppCompatActivity {
             @Override
             public void onResults(Bundle results) {
                 ArrayList<String> res = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-                String listString = "";
+                String listString = "-------------->";
+                Context context = getApplicationContext();
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast;
 
                 for (String s : res)
                 {
+                    switch (s.toLowerCase()){
+                        case "ocr":
+                            Intent intent1 = new Intent(MainActivity3.this, OcrActivity.class);
+                            startActivity(intent1);
+                            toast = Toast.makeText(context, s, duration);
+                            toast.show();
+                            break;
+                        case "argent":
+                            Intent intent2 = new Intent(MainActivity3.this, MoneyDetectActivity.class);
+                            startActivity(intent2);
+                            toast = Toast.makeText(context, s, duration);
+                            toast.show();
+                            break;
+                        case "localisation":
+                            Intent intent3 = new Intent(MainActivity3.this, GeoActivity.class);
+                            startActivity(intent3);
+                            toast = Toast.makeText(context, s, duration);
+                            toast.show();
+                            break;
+                    }
+
                     listString += s + " ";
                 }
                 System.out.println(listString);
