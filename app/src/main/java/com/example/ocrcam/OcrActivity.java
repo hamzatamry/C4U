@@ -42,7 +42,7 @@ public class OcrActivity extends AppCompatActivity {
         if(imgTakeIntent.resolveActivity(getPackageManager()) != null){
             startActivityForResult(imgTakeIntent,100);
         }
-        
+
         imgView = findViewById(R.id.imageView);
         TakePicButt = findViewById(R.id.button);
         textView = findViewById(R.id.textView);
@@ -50,10 +50,12 @@ public class OcrActivity extends AppCompatActivity {
 
         listener = status -> {
             if(status != TextToSpeech.ERROR){
-                textToSpeech.setLanguage(Locale.ENGLISH);
+                textToSpeech.setLanguage(Locale.FRENCH);
             }
         };
+
         textToSpeech = new TextToSpeech(getApplicationContext(), listener);
+        textToSpeech.setLanguage(new Locale("fr", "FR"));
         ttsButton.setOnClickListener(v -> {
             String ttsSpeech = textView.getText().toString();
             textToSpeech.speak(ttsSpeech,TextToSpeech.QUEUE_FLUSH,null);

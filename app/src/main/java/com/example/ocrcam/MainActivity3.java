@@ -62,6 +62,8 @@ public class MainActivity3 extends AppCompatActivity {
             @Override
             public void onBeginningOfSpeech() {
 //                textView.setText("Listenning ...");
+                Toast toast = Toast.makeText(getApplicationContext(),"Listenning....",Toast.LENGTH_SHORT);
+                toast.show();
             }
 
             @Override
@@ -86,12 +88,10 @@ public class MainActivity3 extends AppCompatActivity {
 
             @Override
             public void onResults(Bundle results) {
-                ArrayList<String> res = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-                String listString = "-------------->";
-                Context context = getApplicationContext();
-                int duration = Toast.LENGTH_SHORT;
-
                 Toast toast;
+                int duration = Toast.LENGTH_SHORT;
+                ArrayList<String> res = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                Context context = getApplicationContext();
 
                 for (String s : res)
                 {
@@ -116,9 +116,7 @@ public class MainActivity3 extends AppCompatActivity {
                             break;
                     }
 
-                    listString += s + " ";
                 }
-                System.out.println(listString);
             }
 
             @Override
