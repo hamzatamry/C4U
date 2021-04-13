@@ -1,12 +1,15 @@
 package com.example.ocrcam;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
-    private int layout = 3;
+    private int layout;
+    private SharedPreferences mPreferences;
+    private final String sharedPrefFile = "com.c4u.appsharedprefs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,7 +17,8 @@ public class MainActivity extends AppCompatActivity {
         Intent intent2 = new Intent(MainActivity.this, MainActivity2.class); //swipes and stuff
         Intent intent3 = new Intent(MainActivity.this, MainActivity3.class); //voice
         Intent intent4 = new Intent(MainActivity.this, MainActivity2.class); //air gestures
-
+        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        layout= mPreferences.getInt("method", 1);
         super.onCreate(savedInstanceState);
         if (layout == 1)
             startActivity(intent1);
