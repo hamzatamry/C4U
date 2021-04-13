@@ -10,6 +10,7 @@ import android.hardware.SensorManager;
 import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -93,20 +94,23 @@ public class SensorService extends Service implements SensorEventListener
         mAccelCurrent = (float) Math.sqrt((double) (x * x + y * y + z * z));
         float delta = mAccelCurrent - mAccelLast;
         mAccel = mAccel * 0.9f + delta;
-        if (mAccel > 12) {
 
-            ttobj = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-                @Override
-                public void onInit(int status) {
-                    if (status != TextToSpeech.ERROR){
-                        ttobj.setLanguage(Locale.UK);
-                    }
-
-                    ttobj.speak("Shake event detected", TextToSpeech.QUEUE_FLUSH, null);
+        if (mAccel > 12)
+        {
+            Toast toast = Toast.makeText(getApplicationContext(), "Shake movement detected", Toast.LENGTH_SHORT);
+            CountDownTimer toastCountDown = new CountDownTimer(1000, 1000) {
+                public void onTick(long millisUntilFinished)
+                {
+                    toast.show();
                 }
-            });
+                public void onFinish()
+                {
+                    toast.cancel();
+                }
+            };
+            toast.show();
+            toastCountDown.start();
 
-            Toast.makeText(getApplicationContext(), "Shake event detected", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -120,13 +124,17 @@ public class SensorService extends Service implements SensorEventListener
         {
             position = "Portrait position";
         }
-        else if (-20 <= xOrientation && xOrientation <= 1)
-        {
-            position = "Vertical position";
-        }
-        else if (70 <= yOrientation && yOrientation <= 100 || -100 <= yOrientation && yOrientation <= -70)
+
+        if ((70 <= yOrientation && yOrientation <= 100) || (-100 <= yOrientation && yOrientation <= -70))
         {
             position = "Landscape position";
+        }
+
+        if ((-20 <= xOrientation && xOrientation <= 10) && (-10 <= yOrientation && yOrientation <= 10))
+        {
+            System.out.println("xOrientation " + String.valueOf(xOrientation));
+            System.out.println("yOrientation " + String.valueOf(yOrientation));
+            position = "Vertical position";
         }
 
         if (position != "")
