@@ -3,6 +3,7 @@ package com.example.c4u;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GestureDetectorCompat;
 
+import android.content.Intent;
 import android.media.midi.MidiDeviceService;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -20,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     GestureDetectorCompat gesturesDetector;
     TextToSpeech tts;
     EditText edit;
-    Button button;
+    Button button, mapsButton;
 
 
     @Override
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         gesturesDetector = new GestureDetectorCompat(this,new GestureListener());
         edit = (EditText)findViewById(R.id.input);
         button = (Button) findViewById(R.id.button);
+        mapsButton = (Button) findViewById(R.id.button2);
 
         tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
@@ -46,6 +48,14 @@ public class MainActivity extends AppCompatActivity {
                 String toSpeak = edit.getText().toString();
                 Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
                 tts.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+            }
+        });
+
+        mapsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+                startActivity(intent);
             }
         });
     }
