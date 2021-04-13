@@ -32,7 +32,7 @@ public class MoneyDetectActivity extends AppCompatActivity implements LoaderMana
         }
         textToSpeech = new TextToSpeech(getApplicationContext(), status -> {
             if(status != TextToSpeech.ERROR){
-                textToSpeech.setLanguage(Locale.ENGLISH);
+                textToSpeech.setLanguage(Locale.FRENCH);
             }
         });
     }
@@ -45,7 +45,7 @@ public class MoneyDetectActivity extends AppCompatActivity implements LoaderMana
             Uri tempUri = getImageUri(getApplicationContext(), imgBitmap);
             queryBundle.putString("queryString", getRealPathFromURI(tempUri));
             if(LoaderManager.getInstance(this).getLoader(0)!=null){
-                LoaderManager.getInstance(this).initLoader(0,null,this);
+                LoaderManager.getInstance(this).initLoader(0,queryBundle,this);
             }
             LoaderManager.getInstance(this).restartLoader(0, queryBundle, this);
         }
@@ -85,7 +85,7 @@ public class MoneyDetectActivity extends AppCompatActivity implements LoaderMana
     @Override
     public void onLoadFinished(@NonNull Loader<String> loader, String data) {
         if(data==null){
-            LoaderManager.getInstance(this).restartLoader(0, queryBundle, this);
+            textToSpeech.speak("Upload error or server down", TextToSpeech.QUEUE_FLUSH,null);
         }
         textToSpeech.speak(data, TextToSpeech.QUEUE_FLUSH,null);
         finish();
