@@ -30,6 +30,7 @@ public class OcrActivity extends AppCompatActivity {
     private Button ttsButton;
     private EditText ttsText;
     TextToSpeech textToSpeech;
+    TextToSpeech.OnInitListener listener;
     private static final int REQUEST_IMAGE_CAPTURE = 101;
 
 
@@ -44,21 +45,16 @@ public class OcrActivity extends AppCompatActivity {
         ttsButton = findViewById(R.id.button2);
         ttsText = findViewById(R.id.editText);
 
-        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if(status != TextToSpeech.ERROR){
-                    textToSpeech.setLanguage(Locale.ENGLISH);
-                }
+        listener = status -> {
+            if(status != TextToSpeech.ERROR){
+                textToSpeech.setLanguage(Locale.ENGLISH);
             }
-        });
-        ttsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String ttsSpeech = ttsText.getText().toString();
-                textToSpeech.speak(ttsSpeech,TextToSpeech.QUEUE_FLUSH,null);
+        };
+        textToSpeech = new TextToSpeech(getApplicationContext(), listener);
+        ttsButton.setOnClickListener(v -> {
+            String ttsSpeech = ttsText.getText().toString();
+            textToSpeech.speak(ttsSpeech,TextToSpeech.QUEUE_FLUSH,null);
 
-            }
         });
 
         TakePicButt.setOnClickListener(new View.OnClickListener() {
@@ -99,8 +95,15 @@ public class OcrActivity extends AppCompatActivity {
                 stringBuilder.append(res);
             }
             textView.setText(stringBuilder);
+            ttsText.setText(stringBuilder);
+            textToSpeech.speak(stringBuilder.toString(),TextToSpeech.QUEUE_FLUSH,null);
         }
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        textToSpeech = new TextToSpeech(this, listener);
+    }
 }
+
