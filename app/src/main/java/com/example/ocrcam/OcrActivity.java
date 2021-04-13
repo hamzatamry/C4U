@@ -28,7 +28,6 @@ public class OcrActivity extends AppCompatActivity {
     private TextRecognizer recognizer;
     private TextView textView;
     private Button ttsButton;
-    private EditText ttsText;
     TextToSpeech textToSpeech;
     TextToSpeech.OnInitListener listener;
     private static final int REQUEST_IMAGE_CAPTURE = 101;
@@ -39,11 +38,15 @@ public class OcrActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ocr_activity);
 
+        Intent imgTakeIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if(imgTakeIntent.resolveActivity(getPackageManager()) != null){
+            startActivityForResult(imgTakeIntent,100);
+        }
+        
         imgView = findViewById(R.id.imageView);
         TakePicButt = findViewById(R.id.button);
         textView = findViewById(R.id.textView);
         ttsButton = findViewById(R.id.button2);
-        ttsText = findViewById(R.id.editText);
 
         listener = status -> {
             if(status != TextToSpeech.ERROR){
@@ -52,7 +55,7 @@ public class OcrActivity extends AppCompatActivity {
         };
         textToSpeech = new TextToSpeech(getApplicationContext(), listener);
         ttsButton.setOnClickListener(v -> {
-            String ttsSpeech = ttsText.getText().toString();
+            String ttsSpeech = textView.getText().toString();
             textToSpeech.speak(ttsSpeech,TextToSpeech.QUEUE_FLUSH,null);
 
         });
@@ -92,11 +95,9 @@ public class OcrActivity extends AppCompatActivity {
             for (int i = 0; i<sparseArray.size(); i++){
                 TextBlock tb = sparseArray.get(i);
                 String res = tb.getValue();
-                stringBuilder.append(res);
+                stringBuilder.append("\n"+res);
             }
             textView.setText(stringBuilder);
-            ttsText.setText(stringBuilder);
-            textToSpeech.speak(stringBuilder.toString(),TextToSpeech.QUEUE_FLUSH,null);
         }
     }
 
