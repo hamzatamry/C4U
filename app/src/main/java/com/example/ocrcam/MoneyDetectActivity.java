@@ -18,24 +18,26 @@ import android.speech.tts.TextToSpeech;
 import java.io.ByteArrayOutputStream;
 import java.util.Locale;
 
-public class MoneyDetectActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>{
+public class MoneyDetectActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String> {
     private final Bundle queryBundle = new Bundle();
-    private  TextToSpeech textToSpeech;
+    private TextToSpeech textToSpeech;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent imgTakeIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         try {
-            startActivityForResult(imgTakeIntent,100);
+            startActivityForResult(imgTakeIntent, 100);
         } catch (Exception e) {
             e.printStackTrace();
         }
         textToSpeech = new TextToSpeech(getApplicationContext(), status -> {
-            if(status != TextToSpeech.ERROR){
+            if (status != TextToSpeech.ERROR) {
                 textToSpeech.setLanguage(Locale.FRENCH);
             }
         });
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -44,8 +46,8 @@ public class MoneyDetectActivity extends AppCompatActivity implements LoaderMana
             Bitmap imgBitmap = (Bitmap) extras.get("data");
             Uri tempUri = getImageUri(getApplicationContext(), imgBitmap);
             queryBundle.putString("queryString", getRealPathFromURI(tempUri));
-            if(LoaderManager.getInstance(this).getLoader(0)!=null){
-                LoaderManager.getInstance(this).initLoader(0,queryBundle,this);
+            if (LoaderManager.getInstance(this).getLoader(0) != null) {
+                LoaderManager.getInstance(this).initLoader(0, queryBundle, this);
             }
             LoaderManager.getInstance(this).restartLoader(0, queryBundle, this);
         }
@@ -84,10 +86,10 @@ public class MoneyDetectActivity extends AppCompatActivity implements LoaderMana
 
     @Override
     public void onLoadFinished(@NonNull Loader<String> loader, String data) {
-        if(data==null){
-            textToSpeech.speak("Upload error or server down", TextToSpeech.QUEUE_FLUSH,null);
+        if (data == null) {
+            textToSpeech.speak("Upload error or server down", TextToSpeech.QUEUE_FLUSH, null);
         }
-        textToSpeech.speak(data, TextToSpeech.QUEUE_FLUSH,null);
+        textToSpeech.speak(data, TextToSpeech.QUEUE_FLUSH, null);
         finish();
     }
 

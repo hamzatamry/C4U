@@ -28,7 +28,5 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent3);
         else if (layout == 4)
             startActivity(intent4);
-
-
     }
 }

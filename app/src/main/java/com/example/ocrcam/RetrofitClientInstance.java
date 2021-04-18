@@ -9,12 +9,12 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class RetrofitClientInstance {
     private static Retrofit retrofit;
-    private static final String BASE_URL_API = "http://<your ip>:5000/";
+    private static final String BASE_URL_API = "http://127.0.0.1:5000/";
 
     public static Retrofit getRetrofitInstance() {
         OkHttpClient client = new OkHttpClient.Builder()
                 .connectTimeout(60, TimeUnit.SECONDS)
-                .readTimeout(60,TimeUnit.SECONDS).build();
+                .readTimeout(60, TimeUnit.SECONDS).build();
 
         if (retrofit == null) {
             retrofit = new retrofit2.Retrofit.Builder()
