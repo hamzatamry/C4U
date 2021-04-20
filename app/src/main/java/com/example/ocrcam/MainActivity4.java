@@ -18,6 +18,22 @@ public class MainActivity4 extends AppCompatActivity {
         setContentView(R.layout.activity_main4);
     }
 
+    public void ocr(){
+        Intent intent = new Intent(MainActivity4.this, OcrActivity.class);
+        startActivity(intent);
+    }
+
+    public void moneyDetect(){
+        Intent intent = new Intent(MainActivity4.this, MoneyDetectActivity.class);
+        startActivity(intent);
+    }
+
+    public void geo(){
+        Intent intent = new Intent(MainActivity4.this, GeoActivity.class);
+        startActivity(intent);
+    }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
