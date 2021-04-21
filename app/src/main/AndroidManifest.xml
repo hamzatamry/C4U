@@ -22,14 +22,10 @@
         android:theme="@style/Theme.OCRCam"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".MainActivity4" />
-        <activity android:name=".MainActivity3" />
-        <activity android:name=".MainActivity1" />
-        <activity android:name=".MainActivity2" />
-        <activity android:name=".Parametre" />
-        <activity android:name=".GeoActivity" />
-        <activity android:name=".MoneyDetectActivity" />
-        <activity android:name=".OcrActivity" />
+        <service
+            android:name=".SensorService"
+            android:enabled="true"
+            android:exported="true"></service>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,6 +34,14 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".MainActivity4" />
+        <activity android:name=".MainActivity3" />
+        <activity android:name=".MainActivity1" />
+        <activity android:name=".MainActivity2" />
+        <activity android:name=".Parametre" />
+        <activity android:name=".GeoActivity" />
+        <activity android:name=".MoneyDetectActivity" />
+        <activity android:name=".OcrActivity" />
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="ocr" />

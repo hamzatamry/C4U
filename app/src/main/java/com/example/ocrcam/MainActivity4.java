@@ -10,32 +10,38 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class MainActivity4 extends AppCompatActivity {
+public class MainActivity4 extends AppCompatActivity
+{
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main4);
     }
 
-    public void ocr(){
+    public void ocr()
+    {
         Intent intent = new Intent(MainActivity4.this, OcrActivity.class);
         startActivity(intent);
     }
 
-    public void moneyDetect(){
+    public void moneyDetect()
+    {
         Intent intent = new Intent(MainActivity4.this, MoneyDetectActivity.class);
         startActivity(intent);
     }
 
-    public void geo(){
+    public void geo()
+    {
         Intent intent = new Intent(MainActivity4.this, GeoActivity.class);
         startActivity(intent);
     }
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
         return true;
@@ -43,7 +49,8 @@ public class MainActivity4 extends AppCompatActivity {
 
     @SuppressLint("NonConstantResourceId")
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         switch (item.getItemId()) {
             case R.id.param:
                 Intent intent = new Intent(MainActivity4.this, Parametre.class);
