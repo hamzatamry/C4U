@@ -180,4 +180,19 @@ public class SensorService extends Service implements SensorEventListener
             toastCountDown.start();
         }
     }
+
+    public void ocr() {
+        Intent intent = new Intent(getApplicationContext(), OcrActivity.class);
+        startActivity(intent);
+    }
+
+    public void moneyDetect() {
+        Intent intent = new Intent(getApplicationContext(), MoneyDetectActivity.class);
+        startActivity(intent);
+    }
+
+    public void geo() {
+        Intent intent = new Intent(getApplicationContext(), GeoActivity.class);
+        startActivity(intent);
+    }
 }
