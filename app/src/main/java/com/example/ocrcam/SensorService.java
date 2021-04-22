@@ -98,6 +98,7 @@ public class SensorService extends Service implements SensorEventListener
 
         if (mAccel > 12)
         {
+            //*************************** Put your function here  *********************/
             Toast toast = Toast.makeText(getApplicationContext(), "Shake movement detected", Toast.LENGTH_SHORT);
             CountDownTimer toastCountDown = new CountDownTimer(1000, 1000) {
                 public void onTick(long millisUntilFinished)
@@ -122,18 +123,19 @@ public class SensorService extends Service implements SensorEventListener
 
         if (-90 <= xOrientation && xOrientation <= -60)
         {
+            //*************************** Put your function here  *********************/
             position = "Portrait position";
         }
 
         if ((70 <= yOrientation && yOrientation <= 100) || (-100 <= yOrientation && yOrientation <= -70))
         {
+            //*************************** Put your function here  *********************/
             position = "Landscape position";
         }
 
         if ((-20 <= xOrientation && xOrientation <= 10) && (-10 <= yOrientation && yOrientation <= 10))
         {
-            System.out.println("xOrientation " + String.valueOf(xOrientation));
-            System.out.println("yOrientation " + String.valueOf(yOrientation));
+            //*************************** Put your function here  *********************/
             position = "Vertical position";
         }
 
@@ -160,6 +162,7 @@ public class SensorService extends Service implements SensorEventListener
     {
         if (event.values[0] <= 1)
         {
+            //*************************** Put your function here  *********************/
             Toast mToastToShow = Toast.makeText(this, "No Light Detected", Toast.LENGTH_SHORT);
 
             CountDownTimer toastCountDown;
