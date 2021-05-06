@@ -5,6 +5,8 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
+import android.text.BoringLayout;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -15,8 +17,12 @@ import java.util.Locale;
 public class GeoActivity extends AppCompatActivity {
     private TextToSpeech textToSpeech;
 
+    public static Boolean isPushedToStack = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        GeoActivity.isPushedToStack = true;
+
         super.onCreate(savedInstanceState);
         textToSpeech=new TextToSpeech(getApplicationContext(), status -> {
             if(status != TextToSpeech.ERROR) {
@@ -51,5 +57,11 @@ public class GeoActivity extends AppCompatActivity {
             return "Erreur de géolocalisation, veuillez réessayer ultérieurement";
         }
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        GeoActivity.isPushedToStack = false;
+        super.onDestroy();
     }
 }

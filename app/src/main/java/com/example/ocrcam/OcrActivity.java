@@ -22,6 +22,7 @@ import java.util.Locale;
 
 public class OcrActivity extends AppCompatActivity {
 
+    public static Boolean isPushedToStack = false;
 
     private ImageView imgView;
     private Button TakePicButt;
@@ -35,6 +36,10 @@ public class OcrActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        OcrActivity.isPushedToStack = true;
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ocr_activity);
 
@@ -107,6 +112,12 @@ public class OcrActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         textToSpeech = new TextToSpeech(this, listener);
+    }
+
+
+    protected void onDestroy() {
+        super.onDestroy();
+        OcrActivity.isPushedToStack = false;
     }
 }
 

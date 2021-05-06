@@ -24,6 +24,7 @@ public class SensorService extends Service implements SensorEventListener
     private float mAccelCurrent;
     private float mAccelLast;
     private TextToSpeech ttobj = null;
+    private static int numberOfTriggers = 0;
 
     public SensorService()
     {
@@ -98,20 +99,7 @@ public class SensorService extends Service implements SensorEventListener
 
         if (mAccel > 12)
         {
-            //*************************** Put your function here  *********************/
-            Toast toast = Toast.makeText(getApplicationContext(), "Shake movement detected", Toast.LENGTH_SHORT);
-            CountDownTimer toastCountDown = new CountDownTimer(1000, 1000) {
-                public void onTick(long millisUntilFinished)
-                {
-                    toast.show();
-                }
-                public void onFinish()
-                {
-                    toast.cancel();
-                }
-            };
-            toast.show();
-            toastCountDown.start();
+            this.geo();
         }
     }
 
@@ -123,19 +111,18 @@ public class SensorService extends Service implements SensorEventListener
 
         if (-90 <= xOrientation && xOrientation <= -60)
         {
-            //*************************** Put your function here  *********************/
+            this.ocr();
             position = "Portrait position";
         }
 
         if ((70 <= yOrientation && yOrientation <= 100) || (-100 <= yOrientation && yOrientation <= -70))
         {
-            //*************************** Put your function here  *********************/
+            this.moneyDetect();
             position = "Landscape position";
         }
 
         if ((-20 <= xOrientation && xOrientation <= 10) && (-10 <= yOrientation && yOrientation <= 10))
         {
-            //*************************** Put your function here  *********************/
             position = "Vertical position";
         }
 
@@ -181,18 +168,33 @@ public class SensorService extends Service implements SensorEventListener
         }
     }
 
-    public void ocr() {
-        Intent intent = new Intent(getApplicationContext(), OcrActivity.class);
-        startActivity(intent);
+    public void ocr()
+    {
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack)
+        {
+            Intent intent = new Intent(getApplicationContext(), OcrActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
     }
 
-    public void moneyDetect() {
-        Intent intent = new Intent(getApplicationContext(), MoneyDetectActivity.class);
-        startActivity(intent);
+    public void moneyDetect()
+    {
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack)
+        {
+            Intent intent = new Intent(getApplicationContext(), MoneyDetectActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
     }
 
-    public void geo() {
-        Intent intent = new Intent(getApplicationContext(), GeoActivity.class);
-        startActivity(intent);
+    public void geo()
+    {
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack)
+        {
+            Intent intent = new Intent(getApplicationContext(), GeoActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
     }
 }

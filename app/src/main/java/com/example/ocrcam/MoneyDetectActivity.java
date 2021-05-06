@@ -19,11 +19,16 @@ import java.io.ByteArrayOutputStream;
 import java.util.Locale;
 
 public class MoneyDetectActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String> {
+
+    public static Boolean isPushedToStack = false;
     private final Bundle queryBundle = new Bundle();
     private TextToSpeech textToSpeech;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        MoneyDetectActivity.isPushedToStack = true;
+
         super.onCreate(savedInstanceState);
         Intent imgTakeIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         try {
@@ -95,5 +100,12 @@ public class MoneyDetectActivity extends AppCompatActivity implements LoaderMana
 
     @Override
     public void onLoaderReset(@NonNull Loader<String> loader) {
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        MoneyDetectActivity.isPushedToStack = false;
     }
 }
