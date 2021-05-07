@@ -66,10 +66,10 @@ public class SensorService extends Service implements SensorEventListener
                 checkShakeMovement(event);
                 break;
             case Sensor.TYPE_ORIENTATION:
-                checkPhonePosition(event);
+                //checkPhonePosition(event);
                 break;
             case Sensor.TYPE_LIGHT:
-                checkAbsenceOfLight(event);
+                //checkAbsenceOfLight(event);
             default:
                 break;
         }
@@ -103,70 +103,9 @@ public class SensorService extends Service implements SensorEventListener
         }
     }
 
-    public void checkPhonePosition(SensorEvent event)
-    {
-        float xOrientation = event.values[1];
-        float yOrientation = event.values[2];
-        String position = "";
 
-        if (-90 <= xOrientation && xOrientation <= -60)
-        {
-            this.ocr();
-            position = "Portrait position";
-        }
 
-        if ((70 <= yOrientation && yOrientation <= 100) || (-100 <= yOrientation && yOrientation <= -70))
-        {
-            this.moneyDetect();
-            position = "Landscape position";
-        }
 
-        if ((-20 <= xOrientation && xOrientation <= 10) && (-10 <= yOrientation && yOrientation <= 10))
-        {
-            position = "Vertical position";
-        }
-
-        if (position != "")
-        {
-            Toast toast = Toast.makeText(getApplicationContext(), position, Toast.LENGTH_SHORT);
-            CountDownTimer toastCountDown;
-            toastCountDown = new CountDownTimer(1, 1) {
-                public void onTick(long millisUntilFinished)
-                {
-                    toast.show();
-                }
-                public void onFinish()
-                {
-                    toast.cancel();
-                }
-            };
-            toast.show();
-            toastCountDown.start();
-        }
-    }
-
-    public void checkAbsenceOfLight(SensorEvent event)
-    {
-        if (event.values[0] <= 1)
-        {
-            //*************************** Put your function here  *********************/
-            Toast mToastToShow = Toast.makeText(this, "No Light Detected", Toast.LENGTH_SHORT);
-
-            CountDownTimer toastCountDown;
-            toastCountDown = new CountDownTimer(1, 1) {
-                public void onTick(long millisUntilFinished)
-                {
-                    mToastToShow.show();
-                }
-                public void onFinish() {
-                    mToastToShow.cancel();
-                }
-            };
-
-            mToastToShow.show();
-            toastCountDown.start();
-        }
-    }
 
     public void ocr()
     {

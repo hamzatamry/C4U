@@ -22,7 +22,10 @@ import java.util.Locale;
 
 public class MainActivity2 extends AppCompatActivity{
     GestureDetectorCompat gesturesDetector;
-    TextToSpeech tts;
+
+    private final static int REQUEST_CODE = 1;
+    TextToSpeech textToSpeech;
+    TextToSpeech.OnInitListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,14 +33,14 @@ public class MainActivity2 extends AppCompatActivity{
         setContentView(R.layout.activity_main2);
         gesturesDetector = new GestureDetectorCompat(this,new GestureListener());
 
-        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if(status != TextToSpeech.ERROR) {
-                    tts.setLanguage(Locale.UK);
-                }
+        listener = status -> {
+            if(status != TextToSpeech.ERROR){
+                textToSpeech.setLanguage(Locale.FRENCH);
             }
-        });
+        };
+
+        textToSpeech = new TextToSpeech(getApplicationContext(), listener);
+        textToSpeech.setLanguage(new Locale("fr", "FR"));
 
         /*
         ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.gestures);
@@ -95,10 +98,16 @@ public class MainActivity2 extends AppCompatActivity{
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        textToSpeech = new TextToSpeech(this, listener);
+    }
+
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            tts.speak("geolocation", TextToSpeech.QUEUE_FLUSH, null);
+            textToSpeech.speak("geolocation", TextToSpeech.QUEUE_FLUSH, null);
             Toast.makeText(MainActivity2.this, "Geolocation", Toast.LENGTH_SHORT).show();
             geo();
             return super.onFling(e1, e2, velocityX, velocityY);
@@ -106,7 +115,7 @@ public class MainActivity2 extends AppCompatActivity{
 
         @Override
         public boolean onDoubleTap(MotionEvent e) {
-            tts.speak("OCR", TextToSpeech.QUEUE_FLUSH, null);
+            textToSpeech.speak("OCR", TextToSpeech.QUEUE_FLUSH, null);
             Toast.makeText(MainActivity2.this, "OCR", Toast.LENGTH_SHORT).show();
             ocr();
             return super.onDoubleTap(e);
@@ -114,7 +123,7 @@ public class MainActivity2 extends AppCompatActivity{
 
         @Override
         public void onLongPress(MotionEvent e) {
-            tts.speak("Money detection", TextToSpeech.QUEUE_FLUSH, null);
+            textToSpeech.speak("Money detection", TextToSpeech.QUEUE_FLUSH, null);
             Toast.makeText(MainActivity2.this, "Money detection", Toast.LENGTH_SHORT).show();
             moneyDetect();
             super.onLongPress(e);
@@ -144,28 +153,19 @@ public class MainActivity2 extends AppCompatActivity{
     public void geo()
     {
         Intent intent = new Intent(MainActivity2.this, GeoActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent,REQUEST_CODE);
     }
-
-    public void onPause(){
-        if(tts !=null){
-            tts.stop();
-            tts.shutdown();
-        }
-        super.onPause();
-    }
-
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        tts = new TextToSpeech(this,new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if(status != TextToSpeech.ERROR) {
-                    tts.setLanguage(Locale.US);
-                }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+            if (data.hasExtra("loc")) {
+                String localisation =  data.getExtras().getString("loc");
+                Toast.makeText(this, localisation, Toast.LENGTH_SHORT).show();
+                textToSpeech.speak(localisation,TextToSpeech.QUEUE_FLUSH,null);
             }
-        });
+        }
     }
+
 }
