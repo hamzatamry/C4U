@@ -1,4 +1,4 @@
-package com.example.ocrcam;
+package com.example.C4U;
 
 import org.junit.Test;
 

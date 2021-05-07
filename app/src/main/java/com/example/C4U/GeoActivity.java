@@ -1,4 +1,4 @@
-package com.example.ocrcam;
+package com.example.C4U;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;

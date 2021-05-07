@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "OCRCam"
+rootProject.name = "C4U"

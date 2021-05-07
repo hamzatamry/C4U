@@ -1,4 +1,4 @@
-package com.example.ocrcam;
+package com.example.C4U;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.speech.tts.TextToSpeech;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,6 +22,9 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
 import static android.speech.RecognizerIntent.EXTRA_LANGUAGE;
 import static android.speech.RecognizerIntent.EXTRA_LANGUAGE_MODEL;
@@ -31,21 +35,25 @@ public class MainActivity3 extends AppCompatActivity {
     private Intent speechIntent;
     private SpeechRecognizer speechRec;
     private final int MY_PERMISSIONS_RECORD_AUDIO = 1;
-    private String[] options = {"ocr", "argent", "localisation"};
+    private final static int REQUEST_CODE = 1;
+    TextToSpeech textToSpeech;
+    TextToSpeech.OnInitListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
 
+        listener = status -> {
+            if(status != TextToSpeech.ERROR){
+                textToSpeech.setLanguage(Locale.FRENCH);
+            }
+        };
+
+        textToSpeech = new TextToSpeech(getApplicationContext(), listener);
+        textToSpeech.setLanguage(new Locale("fr", "FR"));
+
         talkbtn=findViewById(R.id.voice_btn);
-//        talkbtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity3.this, OcrActivity.class);
-//                startActivity(intent);
-//            }
-//        });
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, MY_PERMISSIONS_RECORD_AUDIO);
@@ -110,7 +118,7 @@ public class MainActivity3 extends AppCompatActivity {
                             break;
                         case "localisation":
                             Intent intent3 = new Intent(MainActivity3.this, GeoActivity.class);
-                            startActivity(intent3);
+                            startActivityForResult(intent3,REQUEST_CODE);
                             toast = Toast.makeText(context, s, duration);
                             toast.show();
                             break;
@@ -162,6 +170,24 @@ public class MainActivity3 extends AppCompatActivity {
                 return true;
             default:
                 return false;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        textToSpeech = new TextToSpeech(this, listener);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+            if (data.hasExtra("loc")) {
+                String localisation =  data.getExtras().getString("loc");
+                Toast.makeText(this, localisation, Toast.LENGTH_SHORT).show();
+                textToSpeech.speak(localisation,TextToSpeech.QUEUE_FLUSH,null);
+            }
         }
     }
 }
