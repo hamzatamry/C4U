@@ -19,6 +19,7 @@ public class MainActivity1 extends AppCompatActivity{
     private Button ocrBt;
     private Button geoBt;
     private Button moneyBt;
+    private Button colorBt;
 
     private final static int REQUEST_CODE = 1;
 
@@ -34,6 +35,7 @@ public class MainActivity1 extends AppCompatActivity{
         moneyBt = findViewById(R.id.moneyBt);
         ocrBt = findViewById(R.id.ocrBt);
         geoBt = findViewById(R.id.geoBt);
+        colorBt = findViewById(R.id.colorBt);
 
         listener = status -> {
             if(status != TextToSpeech.ERROR){
@@ -57,6 +59,14 @@ public class MainActivity1 extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity1.this, MoneyDetectActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        colorBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity1.this, ColorDetectActivity.class);
                 startActivity(intent);
             }
         });

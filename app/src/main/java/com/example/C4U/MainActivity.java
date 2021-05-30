@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        startService(new Intent(getBaseContext(), SensorService.class));
+//        startService(new Intent(getBaseContext(), SensorService.class));
         Intent intent1 = new Intent(MainActivity.this, MainActivity1.class); //buttons
         Intent intent2 = new Intent(MainActivity.this, MainActivity2.class); //swipes and stuff
         Intent intent3 = new Intent(MainActivity.this, MainActivity3.class); //voice

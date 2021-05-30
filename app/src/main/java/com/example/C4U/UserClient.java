@@ -8,8 +8,14 @@ import retrofit2.http.Part;
 
 public interface UserClient {
     @Multipart
-    @POST("/")
-    Call<String> uploadPhoto(
+    @POST("/money")
+    Call<String> uploadPhotoMoney(
+            @Part() MultipartBody.Part photo
+    );
+
+    @Multipart
+    @POST("/color")
+    Call<String> uploadPhotoColor(
             @Part() MultipartBody.Part photo
     );
 }

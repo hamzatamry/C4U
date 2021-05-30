@@ -6,4 +6,5 @@
     <string name="setting_menu_label">Paramètres</string>
     <string name="help_menu_label">Help</string>
     <string name="talk_btn_label">Parler</string>
+    <string name="color_btn_label">Detection Couleur</string>
 </resources>

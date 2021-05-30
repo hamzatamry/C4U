@@ -9,7 +9,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class RetrofitClientInstance {
     private static Retrofit retrofit;
-    private static final String BASE_URL_API = "http://127.0.0.1:5000/";
+    private static final String BASE_URL_API = "http://arty0091.pythonanywhere.com/";
 
     public static Retrofit getRetrofitInstance() {
         OkHttpClient client = new OkHttpClient.Builder()

@@ -22,6 +22,9 @@
         android:theme="@style/Theme.C4U"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
         <service
             android:name=".SensorService"
             android:enabled="true"
@@ -41,6 +44,7 @@
         <activity android:name=".Parametre" />
         <activity android:name=".GeoActivity" />
         <activity android:name=".MoneyDetectActivity" />
+        <activity android:name=".ColorDetectActivity" />
         <activity android:name=".OcrActivity" />
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
