@@ -1,28 +1,47 @@
 package com.example.C4U;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.Loader;
-
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.speech.tts.TextToSpeech;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.StatusLine;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.Locale;
 
-public class ColorDetectActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String> {
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
+public class ColorDetectActivity extends AppCompatActivity {
 
     public static Boolean isPushedToStack = false;
     private final Bundle queryBundle = new Bundle();
-    private TextToSpeech textToSpeech;
+    private static TextToSpeech textToSpeech;
+    private static String value = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +70,38 @@ public class ColorDetectActivity extends AppCompatActivity implements LoaderMana
             Bitmap imgBitmap = (Bitmap) extras.get("data");
             Uri tempUri = getImageUri(getApplicationContext(), imgBitmap);
             queryBundle.putString("queryString", getRealPathFromURI(tempUri));
-            if (LoaderManager.getInstance(this).getLoader(0) != null) {
-                LoaderManager.getInstance(this).initLoader(0, queryBundle, this);
-            }
-            LoaderManager.getInstance(this).restartLoader(0, queryBundle, this);
+            String queryString = queryBundle.getString("queryString");
+
+            File photo = new File(queryString);
+            RequestBody filePart = RequestBody.create(
+                    MediaType.parse(queryString),
+                    photo
+            );
+            MultipartBody.Part file = MultipartBody.Part.createFormData("file", photo.getName(), filePart);
+            //Retrofit instance
+            Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
+            //get client and call object for the request
+            UserClient client = retrofit.create(UserClient.class);
+            //execute the request
+            Call<String> call = client.uploadPhotoColor(file);
+            call.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                    if (response.isSuccessful()) {
+                        new RequestTask().execute("https://www.thecolorapi.com/id?hex=" + response.body());
+                    } else {
+                        value = "Upload error or server down";
+                        textToSpeech.speak(value, TextToSpeech.QUEUE_FLUSH, null);
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                    value = "Problème de connexion internet";
+                    textToSpeech.speak(value, TextToSpeech.QUEUE_FLUSH, null);
+                }
+            });
+            finish();
         }
     }
 
@@ -79,31 +126,42 @@ public class ColorDetectActivity extends AppCompatActivity implements LoaderMana
         return path;
     }
 
-    @NonNull
-    @Override
-    public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
-        String queryString = "";
-        if (args != null) {
-            queryString = args.getString("queryString");
+    static class RequestTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected String doInBackground(String... uri) {
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpResponse response;
+            String responseString = null;
+            try {
+                response = httpclient.execute(new HttpGet(uri[0]));
+                StatusLine statusLine = response.getStatusLine();
+                if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
+                    ByteArrayOutputStream out = new ByteArrayOutputStream();
+                    response.getEntity().writeTo(out);
+                    responseString = out.toString();
+                    out.close();
+                } else {
+                    //Closes the connection.
+                    response.getEntity().getContent().close();
+                    throw new IOException(statusLine.getReasonPhrase());
+                }
+            } catch (IOException e) {
+            }
+            return responseString;
         }
-        return new ColorValue(this, queryString);
-    }
 
-    @Override
-    public void onLoadFinished(@NonNull Loader<String> loader, String data) {
-        if (data == null) {
-            textToSpeech.speak("Upload error or server down", TextToSpeech.QUEUE_FLUSH, null);
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            JsonParser parser = new JsonParser();
+            JsonObject json = (JsonObject) parser.parse(result);
+            value = json.get("name").getAsJsonObject().get("value").getAsString();
+            textToSpeech.setLanguage(Locale.ENGLISH);
+            textToSpeech.speak("This is " + value + " color", TextToSpeech.QUEUE_FLUSH, null);
+            System.out.println(value);
         }
-        textToSpeech.setLanguage(Locale.ENGLISH);
-        textToSpeech.speak(data, TextToSpeech.QUEUE_FLUSH, null);
-        textToSpeech.setLanguage(Locale.FRENCH);
-        finish();
     }
-
-    @Override
-    public void onLoaderReset(@NonNull Loader<String> loader) {
-    }
-
 
     @Override
     protected void onDestroy() {
