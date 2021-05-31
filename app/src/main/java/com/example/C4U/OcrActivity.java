@@ -75,6 +75,10 @@ public class OcrActivity extends AppCompatActivity {
             //textView.setText(stringBuilder);
             textToSpeech.speak(stringBuilder.toString(), TextToSpeech.QUEUE_FLUSH, null);
         }
+        if (requestCode == 100 && resultCode == RESULT_CANCELED){
+            finish();
+        }
+        finish();
     }
 
 

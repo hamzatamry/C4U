@@ -90,8 +90,11 @@ public class MoneyDetectActivity extends AppCompatActivity{
                     textToSpeech.speak(value, TextToSpeech.QUEUE_FLUSH, null);
                 }
             });
+        }
+        if (requestCode == 100 && resultCode == RESULT_CANCELED){
             finish();
         }
+        finish();
     }
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {
