@@ -24,11 +24,9 @@ public class OcrActivity extends AppCompatActivity {
 
     public static Boolean isPushedToStack = false;
 
-    private ImageView imgView;
-    private Button TakePicButt;
+
     private TextRecognizer recognizer;
-    private TextView textView;
-    private Button ttsButton;
+
     TextToSpeech textToSpeech;
     TextToSpeech.OnInitListener listener;
     private static final int REQUEST_IMAGE_CAPTURE = 101;
@@ -41,48 +39,20 @@ public class OcrActivity extends AppCompatActivity {
 
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ocr_activity);
 
         Intent imgTakeIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if(imgTakeIntent.resolveActivity(getPackageManager()) != null){
-            startActivityForResult(imgTakeIntent,100);
+        try {
+            startActivityForResult(imgTakeIntent, 100);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        imgView = findViewById(R.id.imageView);
-        TakePicButt = findViewById(R.id.button);
-        textView = findViewById(R.id.textView);
-        ttsButton = findViewById(R.id.button2);
-
-        listener = status -> {
-            if(status != TextToSpeech.ERROR){
+        textToSpeech = new TextToSpeech(getApplicationContext(), status -> {
+            if (status != TextToSpeech.ERROR) {
                 textToSpeech.setLanguage(Locale.FRENCH);
             }
-        };
-
-        textToSpeech = new TextToSpeech(getApplicationContext(), listener);
-        textToSpeech.setLanguage(new Locale("fr", "FR"));
-        ttsButton.setOnClickListener(v -> {
-            String ttsSpeech = textView.getText().toString();
-            textToSpeech.speak(ttsSpeech,TextToSpeech.QUEUE_FLUSH,null);
-
         });
 
-        TakePicButt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent imgTakeIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if(imgTakeIntent.resolveActivity(getPackageManager()) != null){
-                    startActivityForResult(imgTakeIntent,100);
-                }
-            }
-        });
-    }
-
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        textToSpeech.shutdown();
     }
 
 
@@ -92,8 +62,6 @@ public class OcrActivity extends AppCompatActivity {
         if (requestCode == 100 && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imgBitmap = (Bitmap) extras.get("data");
-            imgView.setImageBitmap(imgBitmap);
-
 
             recognizer = new TextRecognizer.Builder(OcrActivity.this).build();
             Frame frame = new Frame.Builder().setBitmap(imgBitmap).build();
@@ -104,14 +72,9 @@ public class OcrActivity extends AppCompatActivity {
                 String res = tb.getValue();
                 stringBuilder.append("\n"+res);
             }
-            textView.setText(stringBuilder);
+            //textView.setText(stringBuilder);
+            textToSpeech.speak(stringBuilder.toString(), TextToSpeech.QUEUE_FLUSH, null);
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        textToSpeech = new TextToSpeech(this, listener);
     }
 
 

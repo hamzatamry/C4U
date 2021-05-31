@@ -86,6 +86,7 @@ public class MoneyDetectActivity extends AppCompatActivity{
                 @Override
                 public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                     value ="Problème de connexion internet";
+                    System.out.println(t);
                     textToSpeech.speak(value, TextToSpeech.QUEUE_FLUSH, null);
                 }
             });
