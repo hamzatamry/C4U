@@ -23,13 +23,6 @@ public class SensorService extends Service implements SensorEventListener
     private float mAccel;
     private float mAccelCurrent;
     private float mAccelLast;
-    private TextToSpeech ttobj = null;
-    private static int numberOfTriggers = 0;
-
-    public SensorService()
-    {
-
-    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
@@ -66,9 +59,9 @@ public class SensorService extends Service implements SensorEventListener
                 checkShakeMovement(event);
                 break;
             case Sensor.TYPE_ORIENTATION:
-                //checkPhonePosition(event);
+                checkPhonePosition(event);
                 break;
-            case Sensor.TYPE_LIGHT:
+            //case Sensor.TYPE_LIGHT:
                 //checkAbsenceOfLight(event);
             default:
                 break;
@@ -76,10 +69,7 @@ public class SensorService extends Service implements SensorEventListener
     }
 
     @Override
-    public void onAccuracyChanged(Sensor sensor, int i)
-    {
-
-    }
+    public void onAccuracyChanged(Sensor sensor, int i) { }
 
     private void registerSensorEventListener(int sensorType)
     {
@@ -100,10 +90,25 @@ public class SensorService extends Service implements SensorEventListener
         if (mAccel > 12)
         {
             this.geo();
+            String position = "Shake movement detected";
+            Toast toast = Toast.makeText(getApplicationContext(), position, Toast.LENGTH_SHORT);
+            CountDownTimer toastCountDown;
+            toastCountDown = new CountDownTimer(1, 1) {
+                public void onTick(long millisUntilFinished)
+                {
+                    toast.show();
+                }
+                public void onFinish()
+                {
+                    toast.cancel();
+                }
+            };
+            toast.show();
+            toastCountDown.start();
         }
     }
 
-   /* public void checkPhonePosition(SensorEvent event)
+    public void checkPhonePosition(SensorEvent event)
     {
         float xOrientation = event.values[1];
         float yOrientation = event.values[2];
@@ -120,6 +125,8 @@ public class SensorService extends Service implements SensorEventListener
             this.moneyDetect();
             position = "Landscape position";
         }
+
+        /* Commented by Hamza (Functionality not needed)
 
         if ((-20 <= xOrientation && xOrientation <= 10) && (-10 <= yOrientation && yOrientation <= 10))
         {
@@ -143,9 +150,11 @@ public class SensorService extends Service implements SensorEventListener
             toast.show();
             toastCountDown.start();
         }
-    }*/
+        */
+    }
 
-   /* public void checkAbsenceOfLight(SensorEvent event)
+    /*  Commented by Hamza (Functionality not needed)
+   public void checkAbsenceOfLight(SensorEvent event)
     {
         if (event.values[0] <= 1)
         {
@@ -166,8 +175,9 @@ public class SensorService extends Service implements SensorEventListener
             mToastToShow.show();
             toastCountDown.start();
         }
-    }*/
+    }
 
+    */
 
     public void ocr()
     {
