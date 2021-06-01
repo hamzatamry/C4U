@@ -41,8 +41,6 @@ public class Geolocalisation extends AppCompatActivity {
     private Geocoder geocoder;
     public String locationName;
     public Intent data;
-    TextToSpeech textToSpeech;
-    TextToSpeech.OnInitListener listener;
     //SupportMapFragment supportMapFragment;
 
     @Override
@@ -105,8 +103,6 @@ public class Geolocalisation extends AppCompatActivity {
                             finish();
 
                             //Toast.makeText(Geolocalisation.this, locationName, Toast.LENGTH_SHORT).show();
-                            //textToSpeech.setSpeechRate(0.8f);
-                            //textToSpeech.speak(locationName, TextToSpeech.QUEUE_ADD, null);
 
                         }
                         else{
@@ -146,13 +142,5 @@ public class Geolocalisation extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        /*textToSpeech = new TextToSpeech(this,new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if(status != TextToSpeech.ERROR) {
-                    tts.setLanguage(Locale.FRANCE);
-                }
-            }
-        });*/
     }
 }
