@@ -119,7 +119,7 @@ public class GestureActivity extends AppCompatActivity{
 
     public void ocr()
     {
-        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack && !ColorDetectActivity.isPushedToStack)
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !Geolocalisation.isPushedToStack && !ColorDetectActivity.isPushedToStack)
         {
             Intent intent = new Intent(getApplicationContext(), OcrActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -129,7 +129,7 @@ public class GestureActivity extends AppCompatActivity{
 
     public void moneyDetect()
     {
-        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack && !ColorDetectActivity.isPushedToStack)
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !Geolocalisation.isPushedToStack && !ColorDetectActivity.isPushedToStack)
         {
             Intent intent = new Intent(getApplicationContext(), MoneyDetectActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -139,7 +139,7 @@ public class GestureActivity extends AppCompatActivity{
 
     public void geo()
     {
-        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack && !ColorDetectActivity.isPushedToStack)
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !Geolocalisation.isPushedToStack && !ColorDetectActivity.isPushedToStack)
         {
             Intent intent = new Intent(GestureActivity.this, Geolocalisation.class);
             startActivityForResult(intent,REQUEST_CODE);
@@ -148,7 +148,7 @@ public class GestureActivity extends AppCompatActivity{
     }
 
     public void ColorDetect() {
-        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack && !ColorDetectActivity.isPushedToStack)
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !Geolocalisation.isPushedToStack && !ColorDetectActivity.isPushedToStack)
         {
             Intent intent = new Intent(GestureActivity.this, ColorDetectActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
