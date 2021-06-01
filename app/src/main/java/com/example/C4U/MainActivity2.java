@@ -87,8 +87,8 @@ public class MainActivity2 extends AppCompatActivity{
 
         @Override
         public boolean onDoubleTap(MotionEvent e) {
-            textToSpeech.speak(String.valueOf(R.string.ocr), TextToSpeech.QUEUE_FLUSH, null);
-            Toast.makeText(MainActivity2.this, String.valueOf(R.string.ocr), Toast.LENGTH_SHORT).show();
+            textToSpeech.speak("OCR", TextToSpeech.QUEUE_FLUSH, null);
+            Toast.makeText(MainActivity2.this, "OCR", Toast.LENGTH_SHORT).show();
             ocr();
             return super.onDoubleTap(e);
         }
