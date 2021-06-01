@@ -59,7 +59,7 @@ public class ColorDetectActivity extends AppCompatActivity {
             // We don't have permission so prompt the user
             ActivityCompat.requestPermissions(
                     this,
-                    new String[]{READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE},
+                    new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE},
                     102
             );
         }
@@ -117,7 +117,7 @@ public class ColorDetectActivity extends AppCompatActivity {
                 }
             });
         }
-        if (requestCode == 100 && resultCode == RESULT_CANCELED){
+        if (requestCode == 100 && resultCode == RESULT_CANCELED) {
             finish();
         }
         finish();

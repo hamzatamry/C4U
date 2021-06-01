@@ -8,11 +8,11 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.IBinder;
+
 import androidx.annotation.Nullable;
 
 
-public class SensorService extends Service implements SensorEventListener
-{
+public class SensorService extends Service implements SensorEventListener {
     private SensorManager sensorManager = null;
     private float acceleration = 0;
     private float currentAcceleration = 0;
@@ -37,8 +37,7 @@ public class SensorService extends Service implements SensorEventListener
     private boolean lxHasChanged = true;
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId)
-    {
+    public int onStartCommand(Intent intent, int flags, int startId) {
         this.sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         this.acceleration = 10f;
         this.currentAcceleration = SensorManager.GRAVITY_EARTH;
@@ -52,12 +51,12 @@ public class SensorService extends Service implements SensorEventListener
 
     @Nullable
     @Override
-    public IBinder onBind(Intent intent) { return null; }
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
 
-    public void onSensorChanged (SensorEvent event)
-    {
-        switch (event.sensor.getType())
-        {
+    public void onSensorChanged(SensorEvent event) {
+        switch (event.sensor.getType()) {
             case Sensor.TYPE_ACCELEROMETER:
                 checkShakeMovement(event);
                 break;
@@ -72,16 +71,15 @@ public class SensorService extends Service implements SensorEventListener
     }
 
     @Override
-    public void onAccuracyChanged(Sensor sensor, int i) { }
+    public void onAccuracyChanged(Sensor sensor, int i) {
+    }
 
-    private void registerSensorEventListener(int sensorType)
-    {
+    private void registerSensorEventListener(int sensorType) {
         Sensor sensor = this.sensorManager.getDefaultSensor(sensorType);
         this.sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
-    public void checkShakeMovement(SensorEvent event)
-    {
+    public void checkShakeMovement(SensorEvent event) {
         float xAcceleration = event.values[0];
         float yAcceleration = event.values[1];
         float zAcceleration = event.values[2];
@@ -95,107 +93,87 @@ public class SensorService extends Service implements SensorEventListener
 
         acceleration = acceleration * 0.9f + delta;
 
-        if (acceleration > accelerationThreshold)
-        {
+        if (acceleration > accelerationThreshold) {
             System.out.println("Shake Movement detected");
             this.geo();
         }
     }
 
-    public void checkPhonePosition(SensorEvent event)
-    {
+    public void checkPhonePosition(SensorEvent event) {
         this.previousXOrientation = this.currentXOrientation;
         this.previousYOrientation = this.currentYOrientation;
 
         this.currentXOrientation = event.values[1];
         this.currentYOrientation = event.values[2];
 
-        if (hasMovedOnX)
-        {
-            if (minXOrientation <= currentXOrientation && currentXOrientation <= maxXOrientation)
-            {
+        if (hasMovedOnX) {
+            if (minXOrientation <= currentXOrientation && currentXOrientation <= maxXOrientation) {
                 this.ocr();
                 hasMovedOnX = false;
             }
         }
 
-        if (Math.abs(previousXOrientation - currentXOrientation) > variationThreshold)
-        {
+        if (Math.abs(previousXOrientation - currentXOrientation) > variationThreshold) {
             hasMovedOnX = true;
         }
 
-        if (hasMovedOnY)
-        {
-            if (minYOrientation <= currentYOrientation && currentYOrientation <= maxYOrientation)
-            {
+        if (hasMovedOnY) {
+            if (minYOrientation <= currentYOrientation && currentYOrientation <= maxYOrientation) {
                 this.moneyDetect();
                 hasMovedOnY = false;
             }
         }
 
-        if (Math.abs(previousYOrientation - currentYOrientation) > variationThreshold)
-        {
+        if (Math.abs(previousYOrientation - currentYOrientation) > variationThreshold) {
             hasMovedOnY = true;
         }
     }
 
-    public void checkAbsenceOfLight(SensorEvent event)
-    {
+    public void checkAbsenceOfLight(SensorEvent event) {
         previousLx = currentLx;
         currentLx = event.values[0];
 
         System.out.println(currentLx);
 
-        if (Math.abs(previousLx - currentLx) > lxVariationThreshold)
-        {
+        if (Math.abs(previousLx - currentLx) > lxVariationThreshold) {
             lxHasChanged = true;
         }
 
-        if (lxHasChanged)
-        {
-            if (currentLx < 1)
-            {
+        if (lxHasChanged) {
+            if (currentLx < 1) {
                 this.colorDetect();
                 lxHasChanged = false;
             }
         }
     }
 
-    public void ocr()
-    {
-        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack && !ColorDetectActivity.isPushedToStack)
-        {
+    public void ocr() {
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack && !ColorDetectActivity.isPushedToStack) {
             Intent intent = new Intent(getApplicationContext(), OcrActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
     }
 
-    public void moneyDetect()
-    {
-        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack && !ColorDetectActivity.isPushedToStack)
-        {
+    public void moneyDetect() {
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack && !ColorDetectActivity.isPushedToStack) {
             Intent intent = new Intent(getApplicationContext(), MoneyDetectActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
     }
 
-    public void geo()
-    {
-        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack && !ColorDetectActivity.isPushedToStack)
-        {
+    public void geo() {
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack && !ColorDetectActivity.isPushedToStack) {
             Intent intent = new Intent(getApplicationContext(), ActivityServiceLink.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
     }
 
-    public void colorDetect()
-    {
+    public void colorDetect() {
 
-        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack && !ColorDetectActivity.isPushedToStack)
-        {
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack && !ColorDetectActivity.isPushedToStack) {
             Intent intent = new Intent(getApplicationContext(), ColorDetectActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);

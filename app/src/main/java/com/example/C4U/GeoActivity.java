@@ -9,15 +9,17 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class GeoActivity extends AppCompatActivity  {
+public class GeoActivity extends AppCompatActivity {
 
     String location;
 
     public static Boolean isPushedToStack = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

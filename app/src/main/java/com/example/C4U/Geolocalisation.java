@@ -7,8 +7,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -71,35 +69,28 @@ public class Geolocalisation extends AppCompatActivity {
             @Override
             public void onSuccess(Location location) {
                 // when succes
-                if( location != null){
+                if (location != null) {
                     LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                     List<Address> addresses = null;
                     try {
                         addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
 
-                        if (addresses.size() > 0)
-                        {
+                        if (addresses.size() > 0) {
                             Address address = addresses.get(0);
                             String locality = address.getLocality();
                             String country = address.getCountryName();
 
 
                             locationName = address.getAddressLine(0);
-                            Log.d("location",locationName);
-                            Toast.makeText(Geolocalisation.this, locationName, Toast.LENGTH_SHORT).show();
 
                             data = new Intent();
-                            data.putExtra("loc",locationName);
+                            data.putExtra("loc", locationName);
                             setResult(RESULT_OK, data);
                             finish();
-
-                            //Toast.makeText(Geolocalisation.this, locationName, Toast.LENGTH_SHORT).show();
-
-                        }
-                        else{
+                        } else {
                             locationName = "Unknown address";
                             data = new Intent();
-                            data.putExtra("loc",locationName);
+                            data.putExtra("loc", locationName);
                             setResult(RESULT_OK, data);
                             finish();
                         }
@@ -122,8 +113,8 @@ public class Geolocalisation extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == 44){
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        if (requestCode == 44) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // when permission granted
                 getCurrentLocation();
             }

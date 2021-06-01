@@ -9,13 +9,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GestureDetectorCompat;
 
 import java.util.Locale;
 
-public class GestureActivity extends AppCompatActivity{
+public class GestureActivity extends AppCompatActivity {
     GestureDetectorCompat gesturesDetector;
     private final static int REQUEST_CODE = 1;
     TextToSpeech textToSpeech;
@@ -26,10 +26,10 @@ public class GestureActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gestures_activity);
 
-        gesturesDetector = new GestureDetectorCompat(this,new GestureListener());     // GestureListener est un listener
+        gesturesDetector = new GestureDetectorCompat(this, new GestureListener());     // GestureListener est un listener
         // Lambda expression à executer lors de l'initialisation du moteur text to speech
         listener = status -> {
-            if(status != TextToSpeech.ERROR){
+            if (status != TextToSpeech.ERROR) {
                 textToSpeech.setLanguage(Locale.ENGLISH);
             }
         };
@@ -70,13 +70,11 @@ public class GestureActivity extends AppCompatActivity{
     }
 
 
-
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 
             textToSpeech.speak("Geolocation", TextToSpeech.QUEUE_FLUSH, null);
-            Toast.makeText(GestureActivity.this, "Geolocation", Toast.LENGTH_SHORT).show();
             geo();
             return super.onFling(e1, e2, velocityX, velocityY);
         }
@@ -84,7 +82,6 @@ public class GestureActivity extends AppCompatActivity{
         @Override
         public boolean onDoubleTap(MotionEvent e) {
             textToSpeech.speak("OCR", TextToSpeech.QUEUE_FLUSH, null);
-            Toast.makeText(GestureActivity.this, "OCR", Toast.LENGTH_SHORT).show();
             ocr();
             return super.onDoubleTap(e);
         }
@@ -93,7 +90,6 @@ public class GestureActivity extends AppCompatActivity{
         public void onLongPress(MotionEvent e) {
 
             textToSpeech.speak("Money Detection", TextToSpeech.QUEUE_FLUSH, null);
-            Toast.makeText(GestureActivity.this, "Money Detection", Toast.LENGTH_SHORT).show();
             moneyDetect();
             super.onLongPress(e);
         }
@@ -101,13 +97,10 @@ public class GestureActivity extends AppCompatActivity{
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e) {
             textToSpeech.speak("Color Detection", TextToSpeech.QUEUE_FLUSH, null);
-            Toast.makeText(GestureActivity.this, "Color Detection", Toast.LENGTH_SHORT).show();
             ColorDetect();
             return super.onSingleTapConfirmed(e);
         }
     }
-
-
 
 
     @Override
@@ -118,39 +111,32 @@ public class GestureActivity extends AppCompatActivity{
     }
 
 
-    public void ocr()
-    {
-        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !Geolocalisation.isPushedToStack && !ColorDetectActivity.isPushedToStack)
-        {
+    public void ocr() {
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !Geolocalisation.isPushedToStack && !ColorDetectActivity.isPushedToStack) {
             Intent intent = new Intent(getApplicationContext(), OcrActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
     }
 
-    public void moneyDetect()
-    {
-        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !Geolocalisation.isPushedToStack && !ColorDetectActivity.isPushedToStack)
-        {
+    public void moneyDetect() {
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !Geolocalisation.isPushedToStack && !ColorDetectActivity.isPushedToStack) {
             Intent intent = new Intent(getApplicationContext(), MoneyDetectActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
     }
 
-    public void geo()
-    {
-        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !Geolocalisation.isPushedToStack && !ColorDetectActivity.isPushedToStack)
-        {
+    public void geo() {
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !Geolocalisation.isPushedToStack && !ColorDetectActivity.isPushedToStack) {
             Intent intent = new Intent(GestureActivity.this, Geolocalisation.class);
-            startActivityForResult(intent,REQUEST_CODE);
+            startActivityForResult(intent, REQUEST_CODE);
             //startActivity(intent);
         }
     }
 
     public void ColorDetect() {
-        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !Geolocalisation.isPushedToStack && !ColorDetectActivity.isPushedToStack)
-        {
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !Geolocalisation.isPushedToStack && !ColorDetectActivity.isPushedToStack) {
             Intent intent = new Intent(GestureActivity.this, ColorDetectActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
@@ -162,12 +148,11 @@ public class GestureActivity extends AppCompatActivity{
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
             if (data.hasExtra("loc")) {
-                String localisation =  data.getExtras().getString("loc");
-                Toast.makeText(GestureActivity.this, localisation, Toast.LENGTH_LONG).show();
+                String localisation = data.getExtras().getString("loc");
                 try {
                     Thread.sleep(1000);
                     textToSpeech.setSpeechRate(0.8f);
-                    textToSpeech.speak(localisation,TextToSpeech.QUEUE_FLUSH,null);
+                    textToSpeech.speak(localisation, TextToSpeech.QUEUE_FLUSH, null);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -194,7 +179,7 @@ public class GestureActivity extends AppCompatActivity{
                 return true;
             case R.id.help:
                 textToSpeech.setLanguage(Locale.ENGLISH);
-                String help="Tap once for color detection, tap twice for OCR, fling for geolocation, or a long press for money detection";
+                String help = "Tap once for color detection, tap twice for OCR, fling for geolocation, or a long press for money detection";
                 textToSpeech.speak(help, TextToSpeech.QUEUE_FLUSH, null);
                 return true;
             default:
@@ -207,7 +192,6 @@ public class GestureActivity extends AppCompatActivity{
         super.onResume();
         textToSpeech = new TextToSpeech(this, listener);
     }
-
 
 
 }

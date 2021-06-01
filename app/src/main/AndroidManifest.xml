@@ -49,8 +49,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".SensorActivity" />
-        <activity android:name=".MainActivity3" />
-        <activity android:name=".MainActivity1" />
+        <activity android:name=".VoiceActivity" />
+        <activity android:name=".ButtonsActivity" />
         <activity android:name=".GestureActivity" />
         <activity android:name=".Parametre" />
         <activity android:name=".GeoActivity" />
