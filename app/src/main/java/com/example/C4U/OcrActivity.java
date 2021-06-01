@@ -32,6 +32,7 @@ public class OcrActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+
         OcrActivity.isPushedToStack = true;
         super.onCreate(savedInstanceState);
 
@@ -44,9 +45,12 @@ public class OcrActivity extends AppCompatActivity {
 
         textToSpeech = new TextToSpeech(getApplicationContext(), status -> {
             if (status != TextToSpeech.ERROR) {
-                textToSpeech.setLanguage(Locale.FRENCH);
+                textToSpeech.setLanguage(Locale.UK);
             }
         });
+
+
+
 
     }
 

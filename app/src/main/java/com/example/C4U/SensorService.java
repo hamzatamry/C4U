@@ -8,10 +8,14 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.IBinder;
+import android.speech.tts.TextToSpeech;
+
 import androidx.annotation.Nullable;
 
+import java.util.Locale;
 
-public class SensorService extends Service implements SensorEventListener
+
+public class SensorService extends Service implements SensorEventListener, TextToSpeech.OnInitListener
 {
     private SensorManager sensorManager = null;
     private float acceleration = 0;
@@ -35,6 +39,25 @@ public class SensorService extends Service implements SensorEventListener
     private float currentLx = 0;
     private int lxVariationThreshold = 10;
     private boolean lxHasChanged = true;
+
+    private TextToSpeech textToSpeech;
+
+    @Override
+    public void onCreate()
+    {
+        textToSpeech = new TextToSpeech(this, this);
+        textToSpeech.setSpeechRate(0.8f);
+        super.onCreate();
+    }
+
+    @Override
+    public void onInit(int status)
+    {
+        if (status == TextToSpeech.SUCCESS)
+        {
+            int result = textToSpeech.setLanguage(Locale.US);
+        }
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
@@ -168,6 +191,7 @@ public class SensorService extends Service implements SensorEventListener
             Intent intent = new Intent(getApplicationContext(), OcrActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+            textToSpeech.speak("Camera opened for Image to speech", TextToSpeech.QUEUE_FLUSH, null);
         }
     }
 
@@ -178,6 +202,7 @@ public class SensorService extends Service implements SensorEventListener
             Intent intent = new Intent(getApplicationContext(), MoneyDetectActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+            textToSpeech.speak("Camera opened for Money Detection", TextToSpeech.QUEUE_FLUSH, null);
         }
     }
 
@@ -193,12 +218,12 @@ public class SensorService extends Service implements SensorEventListener
 
     public void colorDetect()
     {
-
         if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack && !ColorDetectActivity.isPushedToStack)
         {
             Intent intent = new Intent(getApplicationContext(), ColorDetectActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+            textToSpeech.speak("Camera opened for Color Detection", TextToSpeech.QUEUE_FLUSH, null);
         }
     }
 }
