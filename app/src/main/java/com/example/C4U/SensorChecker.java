@@ -9,6 +9,14 @@ import java.util.List;
 public class SensorChecker
 {
     private SensorManager sensorManager = null;
+    private static SensorChecker sensorChecker = new SensorChecker();
+
+    private SensorChecker() { }
+
+    public static SensorChecker getSensorCheckerInstance()
+    {
+        return SensorChecker.sensorChecker;
+    }
 
     private void checkSensorList()
     {
