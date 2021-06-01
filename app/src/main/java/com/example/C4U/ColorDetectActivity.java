@@ -2,6 +2,7 @@ package com.example.C4U;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -12,6 +13,7 @@ import android.speech.tts.TextToSpeech;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -36,6 +38,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
 public class ColorDetectActivity extends AppCompatActivity {
 
     public static Boolean isPushedToStack = false;
@@ -45,10 +50,20 @@ public class ColorDetectActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         ColorDetectActivity.isPushedToStack = true;
-
         super.onCreate(savedInstanceState);
+
+        int permission1 = ActivityCompat.checkSelfPermission(this, READ_EXTERNAL_STORAGE);
+        int permission2 = ActivityCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE);
+        if (permission1 != PackageManager.PERMISSION_GRANTED || permission2 != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[]{READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE},
+                    102
+            );
+        }
+
         Intent imgTakeIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         try {
             startActivityForResult(imgTakeIntent, 100);
@@ -97,12 +112,15 @@ public class ColorDetectActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
-                    value = "Problème de connexion internet";
+                    value = "Problème de connexion internet ou de permission de stockage";
                     textToSpeech.speak(value, TextToSpeech.QUEUE_FLUSH, null);
                 }
             });
+        }
+        if (requestCode == 100 && resultCode == RESULT_CANCELED){
             finish();
         }
+        finish();
     }
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {
@@ -147,6 +165,7 @@ public class ColorDetectActivity extends AppCompatActivity {
                     throw new IOException(statusLine.getReasonPhrase());
                 }
             } catch (IOException e) {
+                System.out.println(e.toString());
             }
             return responseString;
         }
@@ -159,7 +178,6 @@ public class ColorDetectActivity extends AppCompatActivity {
             value = json.get("name").getAsJsonObject().get("value").getAsString();
             textToSpeech.setLanguage(Locale.ENGLISH);
             textToSpeech.speak("This is " + value + " color", TextToSpeech.QUEUE_FLUSH, null);
-            System.out.println(value);
         }
     }
 

@@ -14,7 +14,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-//        startService(new Intent(getBaseContext(), SensorService.class));
         Intent intent1 = new Intent(MainActivity.this, MainActivity1.class); //buttons
         Intent intent2 = new Intent(MainActivity.this, MainActivity2.class); //swipes and stuff
         Intent intent3 = new Intent(MainActivity.this, MainActivity3.class); //voice
@@ -28,8 +27,11 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent2);
         else if (layout == 3)
             startActivity(intent3);
-        else if (layout == 4)
+        else if (layout == 4) {
             startActivity(intent4);
+            //startService(new Intent(getBaseContext(), SensorService.class));
+        }
+
     }
 
     @Override
