@@ -29,12 +29,12 @@ import retrofit2.Retrofit;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
-public class MoneyDetectActivity extends AppCompatActivity{
+public class MoneyDetectActivity extends AppCompatActivity {
 
     public static Boolean isPushedToStack = false;
     private final Bundle queryBundle = new Bundle();
     private TextToSpeech textToSpeech;
-    private static String value= "";
+    private static String value = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class MoneyDetectActivity extends AppCompatActivity{
             // We don't have permission so prompt the user
             ActivityCompat.requestPermissions(
                     this,
-                    new String[]{READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE},
+                    new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE},
                     102
             );
         }
@@ -60,7 +60,7 @@ public class MoneyDetectActivity extends AppCompatActivity{
         }
         textToSpeech = new TextToSpeech(getApplicationContext(), status -> {
             if (status != TextToSpeech.ERROR) {
-                textToSpeech.setLanguage(Locale.FRENCH);
+                textToSpeech.setLanguage(Locale.ENGLISH);
             }
         });
     }
@@ -73,37 +73,38 @@ public class MoneyDetectActivity extends AppCompatActivity{
             Bitmap imgBitmap = (Bitmap) extras.get("data");
             Uri tempUri = getImageUri(getApplicationContext(), imgBitmap);
             queryBundle.putString("queryString", getRealPathFromURI(tempUri));
-            String queryString=queryBundle.getString("queryString");
-            File photo =new File(queryString);
-            RequestBody filePart=RequestBody.create(
+            String queryString = queryBundle.getString("queryString");
+            File photo = new File(queryString);
+            RequestBody filePart = RequestBody.create(
                     MediaType.parse(queryString),
                     photo
             );
-            MultipartBody.Part file=MultipartBody.Part.createFormData("file",photo.getName(),filePart);
+            MultipartBody.Part file = MultipartBody.Part.createFormData("file", photo.getName(), filePart);
             //Retrofit instance
-            Retrofit retrofit=RetrofitClientInstance.getRetrofitInstance();
+            Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
             //get client and call object for the request
-            UserClient client=retrofit.create(UserClient.class);
+            UserClient client = retrofit.create(UserClient.class);
             //execute the request
-            Call<String> call=client.uploadPhotoMoney(file);
+            Call<String> call = client.uploadPhotoMoney(file);
             call.enqueue(new Callback<String>() {
                 @Override
-                public void onResponse(@NonNull  Call<String> call, @NonNull Response<String> response) {
+                public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                     if (response.isSuccessful()) {
-                        value=response.body();
+                        value = response.body();
                     } else {
-                        value ="Upload error or server down";
+                        value = "Upload error or server down";
                     }
                     textToSpeech.speak(value, TextToSpeech.QUEUE_FLUSH, null);
                 }
+
                 @Override
                 public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
-                    value ="Problème de connexion internet ou de permission de stockage";
+                    value = "Problem due to internet connexion or storage permissions";
                     textToSpeech.speak(value, TextToSpeech.QUEUE_FLUSH, null);
                 }
             });
         }
-        if (requestCode == 100 && resultCode == RESULT_CANCELED){
+        if (requestCode == 100 && resultCode == RESULT_CANCELED) {
             finish();
         }
         finish();

@@ -59,7 +59,7 @@ public class ColorDetectActivity extends AppCompatActivity {
             // We don't have permission so prompt the user
             ActivityCompat.requestPermissions(
                     this,
-                    new String[]{READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE},
+                    new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE},
                     102
             );
         }
@@ -72,7 +72,7 @@ public class ColorDetectActivity extends AppCompatActivity {
         }
         textToSpeech = new TextToSpeech(getApplicationContext(), status -> {
             if (status != TextToSpeech.ERROR) {
-                textToSpeech.setLanguage(Locale.FRENCH);
+                textToSpeech.setLanguage(Locale.ENGLISH);
             }
         });
     }
@@ -112,12 +112,12 @@ public class ColorDetectActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
-                    value = "Problème de connexion internet ou de permission de stockage";
+                    value = "Problem due to internet connexion or storage permissions";
                     textToSpeech.speak(value, TextToSpeech.QUEUE_FLUSH, null);
                 }
             });
         }
-        if (requestCode == 100 && resultCode == RESULT_CANCELED){
+        if (requestCode == 100 && resultCode == RESULT_CANCELED) {
             finish();
         }
         finish();

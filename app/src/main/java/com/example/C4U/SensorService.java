@@ -10,9 +10,11 @@ import android.hardware.SensorManager;
 import android.os.IBinder;
 import android.speech.tts.TextToSpeech;
 
+
 import androidx.annotation.Nullable;
 
 import java.util.Locale;
+
 
 
 public class SensorService extends Service implements SensorEventListener, TextToSpeech.OnInitListener
@@ -75,12 +77,14 @@ public class SensorService extends Service implements SensorEventListener, TextT
 
     @Nullable
     @Override
-    public IBinder onBind(Intent intent) { return null; }
-
-    public void onSensorChanged (SensorEvent event)
+    public IBinder onBind(Intent intent)
     {
-        switch (event.sensor.getType())
-        {
+        return null;
+    }
+
+    public void onSensorChanged(SensorEvent event)
+    {
+        switch (event.sensor.getType()) {
             case Sensor.TYPE_ACCELEROMETER:
                 checkShakeMovement(event);
                 break;
@@ -186,8 +190,7 @@ public class SensorService extends Service implements SensorEventListener, TextT
 
     public void ocr()
     {
-        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack && !ColorDetectActivity.isPushedToStack)
-        {
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack && !ColorDetectActivity.isPushedToStack) {
             Intent intent = new Intent(getApplicationContext(), OcrActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
@@ -197,8 +200,7 @@ public class SensorService extends Service implements SensorEventListener, TextT
 
     public void moneyDetect()
     {
-        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack && !ColorDetectActivity.isPushedToStack)
-        {
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack && !ColorDetectActivity.isPushedToStack) {
             Intent intent = new Intent(getApplicationContext(), MoneyDetectActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
@@ -208,17 +210,18 @@ public class SensorService extends Service implements SensorEventListener, TextT
 
     public void geo()
     {
-        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack && !ColorDetectActivity.isPushedToStack)
-        {
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack && !ColorDetectActivity.isPushedToStack) {
             Intent intent = new Intent(getApplicationContext(), ActivityServiceLink.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
     }
 
+
     public void colorDetect()
     {
-        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack && !ColorDetectActivity.isPushedToStack)
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack
+                && !GeoActivity.isPushedToStack && !ColorDetectActivity.isPushedToStack)
         {
             Intent intent = new Intent(getApplicationContext(), ColorDetectActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

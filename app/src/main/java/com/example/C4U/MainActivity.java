@@ -14,9 +14,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        Intent intent1 = new Intent(MainActivity.this, MainActivity1.class); //buttons
+        Intent intent1 = new Intent(MainActivity.this, ButtonsActivity.class); //buttons
         Intent intent2 = new Intent(MainActivity.this, GestureActivity.class); //swipes and stuff
-        Intent intent3 = new Intent(MainActivity.this, MainActivity3.class); //voice
+        Intent intent3 = new Intent(MainActivity.this, VoiceActivity.class); //voice
         Intent intent4 = new Intent(MainActivity.this, SensorActivity.class); //Sensors
 
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);

@@ -1,33 +1,20 @@
 package com.example.C4U;
 
-import androidx.annotation.NonNull;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
-
 import android.Manifest;
-
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-
 import android.os.Bundle;
 
-import android.speech.tts.TextToSpeech;
-import android.util.Log;
-import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
@@ -55,7 +42,7 @@ public class Geolocalisation extends AppCompatActivity {
 
         // initialize fused location
         client = LocationServices.getFusedLocationProviderClient(this);
-        geocoder = new Geocoder(this); // transforme les coordonées en adresse
+        geocoder = new Geocoder(this, Locale.ENGLISH); // transforme les coordonées en adresse
 
         // check permission
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -69,9 +56,9 @@ public class Geolocalisation extends AppCompatActivity {
 
     private void getCurrentLocation() {
         // initialize task location
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         Task<Location> task = client.getLastLocation();
@@ -80,35 +67,28 @@ public class Geolocalisation extends AppCompatActivity {
             @Override
             public void onSuccess(Location location) {
                 // when succes
-                if( location != null){
+                if (location != null) {
                     LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                     List<Address> addresses = null;
                     try {
                         addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
 
-                        if (addresses.size() > 0)
-                        {
+                        if (addresses.size() > 0) {
                             Address address = addresses.get(0);
                             String locality = address.getLocality();
                             String country = address.getCountryName();
 
 
                             locationName = address.getAddressLine(0);
-                            Log.d("location",locationName);
-                            Toast.makeText(Geolocalisation.this, locationName, Toast.LENGTH_SHORT).show();
 
                             data = new Intent();
-                            data.putExtra("loc",locationName);
+                            data.putExtra("loc", locationName);
                             setResult(RESULT_OK, data);
                             finish();
-
-                            //Toast.makeText(Geolocalisation.this, locationName, Toast.LENGTH_SHORT).show();
-
-                        }
-                        else{
-                            locationName = "endroit inconnu";
+                        } else {
+                            locationName = "Unknown address";
                             data = new Intent();
-                            data.putExtra("loc",locationName);
+                            data.putExtra("loc", locationName);
                             setResult(RESULT_OK, data);
                             finish();
                         }
@@ -131,8 +111,8 @@ public class Geolocalisation extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == 44){
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        if (requestCode == 44) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // when permission granted
                 getCurrentLocation();
             }

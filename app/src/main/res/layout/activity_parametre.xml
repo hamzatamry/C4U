@@ -10,7 +10,7 @@
         android:id="@+id/indication_lebel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Selectionner votre methode d'utilisation"
+        android:text="@string/setting_title"
         android:textAlignment="center"
         android:textColor="#673AB7"
         android:textSize="18sp"
@@ -36,27 +36,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="onRadioButtonClicked"
-            android:text="Boutons" />
+            android:text="@string/buttons" />
 
         <RadioButton
             android:id="@+id/radioButton2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="onRadioButtonClicked"
-            android:text="Screen Gestures" />
+            android:text="@string/screen_gestures" />
 
         <RadioButton
             android:id="@+id/radioButton3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="onRadioButtonClicked"
-            android:text="Voix" />
+            android:text="@string/voice" />
 
         <RadioButton
             android:id="@+id/radioButton4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="onRadioButtonClicked"
-            android:text="Air gestures" />
+            android:text="@string/air_gestures" />
     </RadioGroup>
 </androidx.constraintlayout.widget.ConstraintLayout>

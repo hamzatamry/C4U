@@ -45,7 +45,8 @@ public class OcrActivity extends AppCompatActivity {
 
         textToSpeech = new TextToSpeech(getApplicationContext(), status -> {
             if (status != TextToSpeech.ERROR) {
-                textToSpeech.setLanguage(Locale.UK);
+                textToSpeech.setLanguage(Locale.US);
+
             }
         });
 
@@ -66,15 +67,15 @@ public class OcrActivity extends AppCompatActivity {
             Frame frame = new Frame.Builder().setBitmap(imgBitmap).build();
             SparseArray<TextBlock> sparseArray = recognizer.detect(frame);
             StringBuilder stringBuilder = new StringBuilder();
-            for (int i = 0; i<sparseArray.size(); i++){
+            for (int i = 0; i < sparseArray.size(); i++) {
                 TextBlock tb = sparseArray.get(i);
                 String res = tb.getValue();
-                stringBuilder.append("\n"+res);
+                stringBuilder.append("\n" + res);
             }
             //textView.setText(stringBuilder);
             textToSpeech.speak(stringBuilder.toString(), TextToSpeech.QUEUE_FLUSH, null);
         }
-        if (requestCode == 100 && resultCode == RESULT_CANCELED){
+        if (requestCode == 100 && resultCode == RESULT_CANCELED) {
             finish();
         }
         finish();
