@@ -22,7 +22,6 @@ import java.util.Locale;
 
 public class MainActivity2 extends AppCompatActivity{
     GestureDetectorCompat gesturesDetector;
-
     private final static int REQUEST_CODE = 1;
     TextToSpeech textToSpeech;
     TextToSpeech.OnInitListener listener;
@@ -122,39 +121,6 @@ public class MainActivity2 extends AppCompatActivity{
         return super.onTouchEvent(event);
     }
 
-    /*
-    public void ocr()
-    {
-        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack)
-        {
-            Intent intent = new Intent(getApplicationContext(), OcrActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-        }
-    }
-
-    public void moneyDetect()
-    {
-        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack)
-        {
-            Intent intent = new Intent(getApplicationContext(), MoneyDetectActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-        }
-    }
-
-    public void geo()
-    {
-        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack)
-        {
-            Intent intent = new Intent(MainActivity2.this, Geolocalisation.class);
-            //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivityForResult(intent,REQUEST_CODE);
-            //startActivity(intent);
-        }
-    }
-
-     */
 
     public void ocr()
     {
