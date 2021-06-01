@@ -5,20 +5,33 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.Locale;
+
 public class SensorActivity extends AppCompatActivity
 {
     private final static int REQUEST_CODE = 1;
+    TextToSpeech textToSpeech;
+    TextToSpeech.OnInitListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main4);
+        listener = status -> {
+            if (status != TextToSpeech.ERROR)
+            {
+                textToSpeech.setLanguage(Locale.ENGLISH);
+            }
+        };
+        textToSpeech = new TextToSpeech(getApplicationContext(), listener);
+        textToSpeech.setLanguage(Locale.ENGLISH);
         startService(new Intent(getBaseContext(), SensorService.class));
     }
 
@@ -41,7 +54,9 @@ public class SensorActivity extends AppCompatActivity
                 startActivity(intent);
                 return true;
             case R.id.help:
-                Toast.makeText(this,"Help",Toast.LENGTH_SHORT).show();
+                textToSpeech.setLanguage(Locale.ENGLISH);
+                String help="Shake for geolocation, portrait for OCR and landscape for money detection";
+                textToSpeech.speak(help, TextToSpeech.QUEUE_FLUSH, null);
                 return true;
             default:
                 return false;

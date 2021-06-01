@@ -170,7 +170,9 @@ public class MainActivity3 extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.help:
-                Toast.makeText(this,"Help",Toast.LENGTH_SHORT).show();
+                textToSpeech.setLanguage(Locale.ENGLISH);
+                String help="Press the Talk button, then say OCR, money, localisation or color";
+                textToSpeech.speak(help, TextToSpeech.QUEUE_FLUSH, null);
                 return true;
             default:
                 return false;

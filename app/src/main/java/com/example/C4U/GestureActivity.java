@@ -193,7 +193,9 @@ public class GestureActivity extends AppCompatActivity{
                 startActivity(intent);
                 return true;
             case R.id.help:
-                Toast.makeText(this,"Help",Toast.LENGTH_SHORT).show();
+                textToSpeech.setLanguage(Locale.ENGLISH);
+                String help="Tap once for color detection, tap twice for OCR, fling for geolocation, or a long press for money detection";
+                textToSpeech.speak(help, TextToSpeech.QUEUE_FLUSH, null);
                 return true;
             default:
                 return false;
