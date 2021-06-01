@@ -5,8 +5,6 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
-import android.text.BoringLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -33,8 +31,6 @@ public class GeoActivity extends AppCompatActivity  {
                 ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 101);
             }
             location = getLocation();
-            System.out.println(location);
-
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

@@ -2,6 +2,7 @@ package com.example.C4U;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -11,6 +12,7 @@ import android.speech.tts.TextToSpeech;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -24,6 +26,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
 public class MoneyDetectActivity extends AppCompatActivity{
 
     public static Boolean isPushedToStack = false;
@@ -33,10 +38,19 @@ public class MoneyDetectActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         MoneyDetectActivity.isPushedToStack = true;
-
         super.onCreate(savedInstanceState);
+
+        int permission1 = ActivityCompat.checkSelfPermission(this, READ_EXTERNAL_STORAGE);
+        int permission2 = ActivityCompat.checkSelfPermission(this, WRITE_EXTERNAL_STORAGE);
+        if (permission1 != PackageManager.PERMISSION_GRANTED || permission2 != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[]{READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE},
+                    102
+            );
+        }
         Intent imgTakeIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         try {
             startActivityForResult(imgTakeIntent, 100);
@@ -60,7 +74,6 @@ public class MoneyDetectActivity extends AppCompatActivity{
             Uri tempUri = getImageUri(getApplicationContext(), imgBitmap);
             queryBundle.putString("queryString", getRealPathFromURI(tempUri));
             String queryString=queryBundle.getString("queryString");
-
             File photo =new File(queryString);
             RequestBody filePart=RequestBody.create(
                     MediaType.parse(queryString),
@@ -85,8 +98,7 @@ public class MoneyDetectActivity extends AppCompatActivity{
                 }
                 @Override
                 public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
-                    value ="Problème de connexion internet";
-                    System.out.println(t);
+                    value ="Problème de connexion internet ou de permission de stockage";
                     textToSpeech.speak(value, TextToSpeech.QUEUE_FLUSH, null);
                 }
             });
