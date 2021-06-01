@@ -3,8 +3,10 @@ package com.example.C4U;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 
 public class MainActivity4 extends AppCompatActivity
 {
+    private final static int REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -20,25 +23,6 @@ public class MainActivity4 extends AppCompatActivity
         setContentView(R.layout.activity_main4);
         startService(new Intent(getBaseContext(), SensorService.class));
     }
-
-    public void ocr()
-    {
-        Intent intent = new Intent(MainActivity4.this, OcrActivity.class);
-        startActivity(intent);
-    }
-
-    public void moneyDetect()
-    {
-        Intent intent = new Intent(MainActivity4.this, MoneyDetectActivity.class);
-        startActivity(intent);
-    }
-
-    public void geo()
-    {
-        Intent intent = new Intent(MainActivity4.this, GeoActivity.class);
-        startActivity(intent);
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)

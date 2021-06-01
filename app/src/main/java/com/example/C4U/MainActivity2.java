@@ -79,6 +79,7 @@ public class MainActivity2 extends AppCompatActivity{
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+
             textToSpeech.speak("Geolocalisation", TextToSpeech.QUEUE_FLUSH, null);
             Toast.makeText(MainActivity2.this, "Geolocalisation", Toast.LENGTH_SHORT).show();
             geo();
@@ -87,14 +88,15 @@ public class MainActivity2 extends AppCompatActivity{
 
         @Override
         public boolean onDoubleTap(MotionEvent e) {
-            textToSpeech.speak("OCR", TextToSpeech.QUEUE_FLUSH, null);
-            Toast.makeText(MainActivity2.this, "OCR", Toast.LENGTH_SHORT).show();
+            textToSpeech.speak(String.valueOf(R.string.ocr), TextToSpeech.QUEUE_FLUSH, null);
+            Toast.makeText(MainActivity2.this, String.valueOf(R.string.ocr), Toast.LENGTH_SHORT).show();
             ocr();
             return super.onDoubleTap(e);
         }
 
         @Override
         public void onLongPress(MotionEvent e) {
+
             textToSpeech.speak("Detection argent", TextToSpeech.QUEUE_FLUSH, null);
             Toast.makeText(MainActivity2.this, "Detection argent", Toast.LENGTH_SHORT).show();
             moneyDetect();
@@ -119,6 +121,40 @@ public class MainActivity2 extends AppCompatActivity{
         //int event_type = event.getActionMasked();
         return super.onTouchEvent(event);
     }
+
+    /*
+    public void ocr()
+    {
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack)
+        {
+            Intent intent = new Intent(getApplicationContext(), OcrActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+    }
+
+    public void moneyDetect()
+    {
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack)
+        {
+            Intent intent = new Intent(getApplicationContext(), MoneyDetectActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+    }
+
+    public void geo()
+    {
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack)
+        {
+            Intent intent = new Intent(MainActivity2.this, Geolocalisation.class);
+            //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivityForResult(intent,REQUEST_CODE);
+            //startActivity(intent);
+        }
+    }
+
+     */
 
     public void ocr()
     {

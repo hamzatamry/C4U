@@ -93,6 +93,8 @@ public class Geolocalisation extends AppCompatActivity {
                             Address address = addresses.get(0);
                             String locality = address.getLocality();
                             String country = address.getCountryName();
+
+
                             locationName = address.getAddressLine(0);
                             Log.d("location",locationName);
                             Toast.makeText(Geolocalisation.this, locationName, Toast.LENGTH_SHORT).show();

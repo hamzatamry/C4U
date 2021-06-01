@@ -9,28 +9,38 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.CountDownTimer;
 import android.os.IBinder;
-import android.speech.tts.TextToSpeech;
-import android.util.Log;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 
-import java.util.Locale;
 
 public class SensorService extends Service implements SensorEventListener
 {
     private SensorManager sensorManager = null;
-    private float mAccel;
-    private float mAccelCurrent;
-    private float mAccelLast;
+    private float acceleration = 0;
+    private float currentAcceleration = 0;
+    private float lastAcceleration = 0;
+    private final int accelerationThreshold = 12;
+
+
+    private float previousXOrientation = 0;
+    private float previousYOrientation = 0;
+    private float currentXOrientation = 0;
+    private float currentYOrientation = 0;
+    private boolean hasMovedOnX = true;
+    private boolean hasMovedOnY = true;
+    private final int minXOrientation = -100;
+    private final int maxXOrientation = -70;
+    private final int minYOrientation = 70;
+    private final int maxYOrientation = 100;
+    private final int variationThreshold = 8;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
     {
         this.sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        this.mAccel = 10f;
-        this.mAccelCurrent = SensorManager.GRAVITY_EARTH;
-        this.mAccelLast = SensorManager.GRAVITY_EARTH;
+        this.acceleration = 10f;
+        this.currentAcceleration = SensorManager.GRAVITY_EARTH;
+        this.lastAcceleration = SensorManager.GRAVITY_EARTH;
 
         registerSensorEventListener(Sensor.TYPE_ACCELEROMETER);
         registerSensorEventListener(Sensor.TYPE_ORIENTATION);
@@ -45,11 +55,6 @@ public class SensorService extends Service implements SensorEventListener
         return null;
     }
 
-    @Override
-    public void onDestroy()
-    {
-        super.onDestroy();
-    }
 
     public void onSensorChanged (SensorEvent event)
     {
@@ -79,82 +84,64 @@ public class SensorService extends Service implements SensorEventListener
 
     public void checkShakeMovement(SensorEvent event)
     {
-        float x = event.values[0];
-        float y = event.values[1];
-        float z = event.values[2];
-        mAccelLast = mAccelCurrent;
-        mAccelCurrent = (float) Math.sqrt((double) (x * x + y * y + z * z));
-        float delta = mAccelCurrent - mAccelLast;
-        mAccel = mAccel * 0.9f + delta;
+        float xAcceleration = event.values[0];
+        float yAcceleration = event.values[1];
+        float zAcceleration = event.values[2];
 
-        if (mAccel > 12)
+        lastAcceleration = currentAcceleration;
+
+        //Calculer la norme de vecteur acceleration
+        currentAcceleration = (float) Math.sqrt((double) (xAcceleration * xAcceleration + yAcceleration * yAcceleration + zAcceleration * zAcceleration));
+
+        float delta = currentAcceleration - lastAcceleration; //variation de l'acceleration
+
+        acceleration = acceleration * 0.9f + delta;
+
+        if (acceleration > accelerationThreshold)
         {
+            System.out.println("Shake Movement detected");
             this.geo();
-            String position = "Shake movement detected";
-            Toast toast = Toast.makeText(getApplicationContext(), position, Toast.LENGTH_SHORT);
-            CountDownTimer toastCountDown;
-            toastCountDown = new CountDownTimer(1, 1) {
-                public void onTick(long millisUntilFinished)
-                {
-                    toast.show();
-                }
-                public void onFinish()
-                {
-                    toast.cancel();
-                }
-            };
-            toast.show();
-            toastCountDown.start();
         }
     }
 
     public void checkPhonePosition(SensorEvent event)
     {
-        float xOrientation = event.values[1];
-        float yOrientation = event.values[2];
-        String position = "";
+        this.previousXOrientation = this.currentXOrientation;
+        this.previousYOrientation = this.currentYOrientation;
 
-        if (-90 <= xOrientation && xOrientation <= -60)
+        this.currentXOrientation = event.values[1];
+        this.currentYOrientation = event.values[2];
+
+        if (hasMovedOnX)
         {
-            this.ocr();
-            position = "Portrait position";
+            if (minXOrientation <= currentXOrientation && currentXOrientation <= maxXOrientation)
+            {
+                this.ocr();
+                hasMovedOnX = false;
+            }
         }
 
-        if ((70 <= yOrientation && yOrientation <= 100) || (-100 <= yOrientation && yOrientation <= -70))
+        if (Math.abs(previousXOrientation - currentXOrientation) > variationThreshold)
         {
-            this.moneyDetect();
-            position = "Landscape position";
+            hasMovedOnX = true;
         }
 
-        /* Commented by Hamza (Functionality not needed)
-
-        if ((-20 <= xOrientation && xOrientation <= 10) && (-10 <= yOrientation && yOrientation <= 10))
+        if (hasMovedOnY)
         {
-            position = "Vertical position";
+            if (minYOrientation <= currentYOrientation && currentYOrientation <= maxYOrientation)
+            {
+                this.moneyDetect();
+                hasMovedOnY = false;
+            }
         }
 
-        if (position != "")
+        if (Math.abs(previousYOrientation - currentYOrientation) > variationThreshold)
         {
-            Toast toast = Toast.makeText(getApplicationContext(), position, Toast.LENGTH_SHORT);
-            CountDownTimer toastCountDown;
-            toastCountDown = new CountDownTimer(1, 1) {
-                public void onTick(long millisUntilFinished)
-                {
-                    toast.show();
-                }
-                public void onFinish()
-                {
-                    toast.cancel();
-                }
-            };
-            toast.show();
-            toastCountDown.start();
+            hasMovedOnY = true;
         }
-        */
     }
 
-    /*  Commented by Hamza (Functionality not needed)
-   public void checkAbsenceOfLight(SensorEvent event)
+    public void checkAbsenceOfLight(SensorEvent event)
     {
         if (event.values[0] <= 1)
         {
@@ -176,8 +163,6 @@ public class SensorService extends Service implements SensorEventListener
             toastCountDown.start();
         }
     }
-
-    */
 
     public void ocr()
     {
@@ -205,7 +190,7 @@ public class SensorService extends Service implements SensorEventListener
         {
             Intent intent = new Intent(getApplicationContext(), GeoActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+            //startActivity(intent);
         }
     }
 }
