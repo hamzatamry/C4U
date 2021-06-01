@@ -7,9 +7,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.CountDownTimer;
 import android.os.IBinder;
-import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 
@@ -20,7 +18,6 @@ public class SensorService extends Service implements SensorEventListener
     private float currentAcceleration = 0;
     private float lastAcceleration = 0;
     private final int accelerationThreshold = 12;
-
 
     private float previousXOrientation = 0;
     private float previousYOrientation = 0;
@@ -33,6 +30,11 @@ public class SensorService extends Service implements SensorEventListener
     private final int minYOrientation = 70;
     private final int maxYOrientation = 100;
     private final int variationThreshold = 8;
+
+    private float previousLx = 0;
+    private float currentLx = 0;
+    private int lxVariationThreshold = 10;
+    private boolean lxHasChanged = true;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)
@@ -50,11 +52,7 @@ public class SensorService extends Service implements SensorEventListener
 
     @Nullable
     @Override
-    public IBinder onBind(Intent intent)
-    {
-        return null;
-    }
-
+    public IBinder onBind(Intent intent) { return null; }
 
     public void onSensorChanged (SensorEvent event)
     {
@@ -66,8 +64,8 @@ public class SensorService extends Service implements SensorEventListener
             case Sensor.TYPE_ORIENTATION:
                 checkPhonePosition(event);
                 break;
-            //case Sensor.TYPE_LIGHT:
-                //checkAbsenceOfLight(event);
+            case Sensor.TYPE_LIGHT:
+                checkAbsenceOfLight(event);
             default:
                 break;
         }
@@ -143,30 +141,29 @@ public class SensorService extends Service implements SensorEventListener
 
     public void checkAbsenceOfLight(SensorEvent event)
     {
-        if (event.values[0] <= 1)
+        previousLx = currentLx;
+        currentLx = event.values[0];
+
+        System.out.println(currentLx);
+
+        if (Math.abs(previousLx - currentLx) > lxVariationThreshold)
         {
+            lxHasChanged = true;
+        }
 
-            Toast mToastToShow = Toast.makeText(this, "No Light Detected", Toast.LENGTH_SHORT);
-
-            CountDownTimer toastCountDown;
-            toastCountDown = new CountDownTimer(1, 1) {
-                public void onTick(long millisUntilFinished)
-                {
-                    mToastToShow.show();
-                }
-                public void onFinish() {
-                    mToastToShow.cancel();
-                }
-            };
-
-            mToastToShow.show();
-            toastCountDown.start();
+        if (lxHasChanged)
+        {
+            if (currentLx < 1)
+            {
+                this.colorDetect();
+                lxHasChanged = false;
+            }
         }
     }
 
     public void ocr()
     {
-        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack)
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack && !ColorDetectActivity.isPushedToStack)
         {
             Intent intent = new Intent(getApplicationContext(), OcrActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -176,7 +173,7 @@ public class SensorService extends Service implements SensorEventListener
 
     public void moneyDetect()
     {
-        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack)
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack && !ColorDetectActivity.isPushedToStack)
         {
             Intent intent = new Intent(getApplicationContext(), MoneyDetectActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -186,11 +183,22 @@ public class SensorService extends Service implements SensorEventListener
 
     public void geo()
     {
-        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack)
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack && !ColorDetectActivity.isPushedToStack)
         {
-            Intent intent = new Intent(getApplicationContext(), GeoActivity.class);
+            Intent intent = new Intent(getApplicationContext(), ActivityServiceLink.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            //startActivity(intent);
+            startActivity(intent);
+        }
+    }
+
+    public void colorDetect()
+    {
+
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack && !ColorDetectActivity.isPushedToStack)
+        {
+            Intent intent = new Intent(getApplicationContext(), ColorDetectActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
     }
 }

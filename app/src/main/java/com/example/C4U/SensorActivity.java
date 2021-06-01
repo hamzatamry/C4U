@@ -3,16 +3,14 @@ package com.example.C4U;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class MainActivity4 extends AppCompatActivity
+public class SensorActivity extends AppCompatActivity
 {
     private final static int REQUEST_CODE = 1;
 
@@ -36,9 +34,10 @@ public class MainActivity4 extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        switch (item.getItemId()) {
+        switch (item.getItemId())
+        {
             case R.id.param:
-                Intent intent = new Intent(MainActivity4.this, Parametre.class);
+                Intent intent = new Intent(SensorActivity.this, Parametre.class);
                 startActivity(intent);
                 return true;
             case R.id.help:

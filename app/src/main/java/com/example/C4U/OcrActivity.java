@@ -23,10 +23,7 @@ import java.util.Locale;
 public class OcrActivity extends AppCompatActivity {
 
     public static Boolean isPushedToStack = false;
-
-
     private TextRecognizer recognizer;
-
     TextToSpeech textToSpeech;
     TextToSpeech.OnInitListener listener;
     private static final int REQUEST_IMAGE_CAPTURE = 101;
@@ -36,8 +33,6 @@ public class OcrActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         OcrActivity.isPushedToStack = true;
-
-
         super.onCreate(savedInstanceState);
 
         Intent imgTakeIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

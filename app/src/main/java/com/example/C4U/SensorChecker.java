@@ -18,7 +18,7 @@ public class SensorChecker
         return SensorChecker.sensorChecker;
     }
 
-    private void checkSensorList()
+    public void checkSensorList()
     {
         List<Sensor> deviceSensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
 
@@ -31,47 +31,47 @@ public class SensorChecker
         }
     }
 
-    private Boolean checkIfAccelerometerSensorExists()
+    public Boolean checkIfAccelerometerSensorExists()
     {
         return sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null;
     }
 
-    private Boolean checkIfGravitySensorExists()
+    public Boolean checkIfGravitySensorExists()
     {
         return sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY) != null;
     }
 
-    private Boolean checkIfGyroscopeSensorExists()
+    public Boolean checkIfGyroscopeSensorExists()
     {
         return sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE) != null;
     }
 
-    private Boolean checkIfLinearAccelerationSensorExists()
+    public Boolean checkIfLinearAccelerationSensorExists()
     {
         return sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION) != null;
     }
 
-    private Boolean checkIfOrientationSensorExists()
+    public Boolean checkIfOrientationSensorExists()
     {
         return sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION) != null;
     }
 
-    private Boolean checkIfRotationVectorSensorExists()
+    public Boolean checkIfRotationVectorSensorExists()
     {
         return sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR) != null;
     }
 
-    private Boolean checkIfGeomagneticRotationVectorSensorExists()
+    public Boolean checkIfGeomagneticRotationVectorSensorExists()
     {
         return sensorManager.getDefaultSensor(Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR) != null;
     }
 
-    private Boolean isStreamingSensor(Sensor sensor)
+    public Boolean isStreamingSensor(Sensor sensor)
     {
         return sensor.getMinDelay() != 0;
     }
 
-    private void checkSensorStreamingList()
+    public void checkSensorStreamingList()
     {
         List<Sensor> deviceSensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
         Iterator<Sensor> listIterator = deviceSensors.iterator();

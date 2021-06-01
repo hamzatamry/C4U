@@ -4,23 +4,18 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GestureDetectorCompat;
 
 import java.util.Locale;
 
-public class MainActivity2 extends AppCompatActivity{
+public class GestureActivity extends AppCompatActivity{
     GestureDetectorCompat gesturesDetector;
     private final static int REQUEST_CODE = 1;
     TextToSpeech textToSpeech;
@@ -80,7 +75,7 @@ public class MainActivity2 extends AppCompatActivity{
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 
             textToSpeech.speak("Geolocalisation", TextToSpeech.QUEUE_FLUSH, null);
-            Toast.makeText(MainActivity2.this, "Geolocalisation", Toast.LENGTH_SHORT).show();
+            Toast.makeText(GestureActivity.this, "Geolocalisation", Toast.LENGTH_SHORT).show();
             geo();
             return super.onFling(e1, e2, velocityX, velocityY);
         }
@@ -88,7 +83,7 @@ public class MainActivity2 extends AppCompatActivity{
         @Override
         public boolean onDoubleTap(MotionEvent e) {
             textToSpeech.speak("OCR", TextToSpeech.QUEUE_FLUSH, null);
-            Toast.makeText(MainActivity2.this, "OCR", Toast.LENGTH_SHORT).show();
+            Toast.makeText(GestureActivity.this, "OCR", Toast.LENGTH_SHORT).show();
             ocr();
             return super.onDoubleTap(e);
         }
@@ -97,7 +92,7 @@ public class MainActivity2 extends AppCompatActivity{
         public void onLongPress(MotionEvent e) {
 
             textToSpeech.speak("Detection argent", TextToSpeech.QUEUE_FLUSH, null);
-            Toast.makeText(MainActivity2.this, "Detection argent", Toast.LENGTH_SHORT).show();
+            Toast.makeText(GestureActivity.this, "Detection argent", Toast.LENGTH_SHORT).show();
             moneyDetect();
             super.onLongPress(e);
         }
@@ -105,7 +100,7 @@ public class MainActivity2 extends AppCompatActivity{
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e) {
             textToSpeech.speak("Detection Couleur", TextToSpeech.QUEUE_FLUSH, null);
-            Toast.makeText(MainActivity2.this, "Detection Couleur", Toast.LENGTH_SHORT).show();
+            Toast.makeText(GestureActivity.this, "Detection Couleur", Toast.LENGTH_SHORT).show();
             ColorDetect();
             return super.onSingleTapConfirmed(e);
         }
@@ -146,7 +141,7 @@ public class MainActivity2 extends AppCompatActivity{
     {
         if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack && !ColorDetectActivity.isPushedToStack)
         {
-            Intent intent = new Intent(MainActivity2.this, Geolocalisation.class);
+            Intent intent = new Intent(GestureActivity.this, Geolocalisation.class);
             startActivityForResult(intent,REQUEST_CODE);
             //startActivity(intent);
         }
@@ -155,7 +150,7 @@ public class MainActivity2 extends AppCompatActivity{
     public void ColorDetect() {
         if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack && !ColorDetectActivity.isPushedToStack)
         {
-            Intent intent = new Intent(MainActivity2.this, ColorDetectActivity.class);
+            Intent intent = new Intent(GestureActivity.this, ColorDetectActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
@@ -167,7 +162,7 @@ public class MainActivity2 extends AppCompatActivity{
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
             if (data.hasExtra("loc")) {
                 String localisation =  data.getExtras().getString("loc");
-                Toast.makeText(MainActivity2.this, localisation, Toast.LENGTH_LONG).show();
+                Toast.makeText(GestureActivity.this, localisation, Toast.LENGTH_LONG).show();
                 try {
                     Thread.sleep(1000);
                     textToSpeech.setSpeechRate(0.8f);
@@ -193,7 +188,7 @@ public class MainActivity2 extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.param:
-                Intent intent = new Intent(MainActivity2.this, Parametre.class);
+                Intent intent = new Intent(GestureActivity.this, Parametre.class);
                 startActivity(intent);
                 return true;
             case R.id.help:

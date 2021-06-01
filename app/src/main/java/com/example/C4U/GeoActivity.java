@@ -20,11 +20,8 @@ public class GeoActivity extends AppCompatActivity  {
     public static Boolean isPushedToStack = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        GeoActivity.isPushedToStack = true;
-
         super.onCreate(savedInstanceState);
-
+        GeoActivity.isPushedToStack = true;
 
         try {
             if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -60,8 +57,8 @@ public class GeoActivity extends AppCompatActivity  {
 
     @Override
     protected void onDestroy() {
-        GeoActivity.isPushedToStack = false;
         super.onDestroy();
+        GeoActivity.isPushedToStack = false;
     }
 
 

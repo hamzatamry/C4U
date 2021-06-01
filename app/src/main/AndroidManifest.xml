@@ -24,22 +24,23 @@
         android:theme="@style/Theme.C4U"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
+        <activity android:name=".ActivityServiceLink"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".Geolocalisation"
-
-            ></activity>
+        <activity android:name=".Geolocalisation" />
 
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
+
         <service
             android:name=".SensorService"
             android:enabled="true"
             android:exported="true" />
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,15 +48,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity4" />
+        <activity android:name=".SensorActivity" />
         <activity android:name=".MainActivity3" />
         <activity android:name=".MainActivity1" />
-        <activity android:name=".MainActivity2" />
+        <activity android:name=".GestureActivity" />
         <activity android:name=".Parametre" />
         <activity android:name=".GeoActivity" />
         <activity android:name=".MoneyDetectActivity" />
         <activity android:name=".ColorDetectActivity" />
         <activity android:name=".OcrActivity" />
+
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="ocr" />

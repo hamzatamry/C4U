@@ -42,10 +42,13 @@ public class Geolocalisation extends AppCompatActivity {
     public String locationName;
     public Intent data;
     //SupportMapFragment supportMapFragment;
+    public static boolean isPushedToStack = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Geolocalisation.isPushedToStack = true;
+
         //setContentView(R.layout.activity_geolocalisation);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         //supportMapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map);
@@ -142,5 +145,12 @@ public class Geolocalisation extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Geolocalisation.isPushedToStack = false;
     }
 }

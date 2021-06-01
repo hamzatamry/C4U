@@ -15,9 +15,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         Intent intent1 = new Intent(MainActivity.this, MainActivity1.class); //buttons
-        Intent intent2 = new Intent(MainActivity.this, MainActivity2.class); //swipes and stuff
+        Intent intent2 = new Intent(MainActivity.this, GestureActivity.class); //swipes and stuff
         Intent intent3 = new Intent(MainActivity.this, MainActivity3.class); //voice
-        Intent intent4 = new Intent(MainActivity.this, MainActivity4.class); //voice
+        Intent intent4 = new Intent(MainActivity.this, SensorActivity.class); //Sensors
 
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         layout= mPreferences.getInt("method", 1);
@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
         {
             startActivity(intent4);
         }
-
     }
 
     @Override
