@@ -176,7 +176,14 @@ public class MainActivity2 extends AppCompatActivity{
             if (data.hasExtra("loc")) {
                 String localisation =  data.getExtras().getString("loc");
                 Toast.makeText(MainActivity2.this, localisation, Toast.LENGTH_SHORT).show();
-                textToSpeech.speak(localisation,TextToSpeech.QUEUE_FLUSH,null);
+                try {
+                    Thread.sleep(1000);
+                    textToSpeech.setSpeechRate(0.8f);
+                    textToSpeech.speak(localisation,TextToSpeech.QUEUE_FLUSH,null);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
             }
         }
     }

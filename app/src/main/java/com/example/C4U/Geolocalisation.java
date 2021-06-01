@@ -96,7 +96,7 @@ public class Geolocalisation extends AppCompatActivity {
                             String locality = address.getLocality();
                             String country = address.getCountryName();
                             //location_name = address.getAddressLine(0).substring(6,30);
-                            locationName = address.getAddressLine(0).substring(6,30);
+                            locationName = address.getAddressLine(0);
                             Log.d("location",locationName);
                             data = new Intent();
                             data.putExtra("loc",locationName);
