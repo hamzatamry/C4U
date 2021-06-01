@@ -32,9 +32,16 @@ Application Android pour les personnes myopes
 
 ## Roles
 *   TAMRY Hamza
-    1.   Capteurs de mouvements.
-    2.   Géolocalisation.
-    3.   Caméra - Image en texte - Pièces de monnaie image en texte (devise, valeur, occurrence, total).
+    1.  Vérification des capteurs et choix des types de capteurs.
+    2.  Création d'un service de gestion des capteurs et implémentation des capteurs suivants :
+        *   Capteur d'accélération
+        *   Capteur d'orientation
+        *   Capteur de lumière
+    3.  Détection de mouvement d'agitation et des positions (portrait, landscape, vertical).
+    4.  Liaison des Déclenchement des actions (OCR, MoneyDetection, GPS) après la détection des positions et de mouvement d'agitation. 
+    5.  Résolution de superposition des activités après détection de differentes positions et de mouvement.
+    6.  Résolution de déclenchement répété des actions par introduction d'un seuil de variation.
+
 *   SABOUR Zakaria
     1.   Gestures.
     2.   Texte en audio.
