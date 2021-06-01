@@ -100,7 +100,17 @@ public class MainActivity2 extends AppCompatActivity{
             moneyDetect();
             super.onLongPress(e);
         }
+
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+            textToSpeech.speak("Detection Couleur", TextToSpeech.QUEUE_FLUSH, null);
+            Toast.makeText(MainActivity2.this, "Detection Couleur", Toast.LENGTH_SHORT).show();
+            ColorDetect();
+            return super.onSingleTapConfirmed(e);
+        }
     }
+
+
 
 
     @Override
@@ -112,7 +122,7 @@ public class MainActivity2 extends AppCompatActivity{
 
     public void ocr()
     {
-        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack)
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack && !ColorDetectActivity.isPushedToStack)
         {
             Intent intent = new Intent(getApplicationContext(), OcrActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -122,7 +132,7 @@ public class MainActivity2 extends AppCompatActivity{
 
     public void moneyDetect()
     {
-        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack)
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack && !ColorDetectActivity.isPushedToStack)
         {
             Intent intent = new Intent(getApplicationContext(), MoneyDetectActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -132,11 +142,20 @@ public class MainActivity2 extends AppCompatActivity{
 
     public void geo()
     {
-        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack)
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack && !ColorDetectActivity.isPushedToStack)
         {
             Intent intent = new Intent(MainActivity2.this, Geolocalisation.class);
             startActivityForResult(intent,REQUEST_CODE);
             //startActivity(intent);
+        }
+    }
+
+    public void ColorDetect() {
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack && !ColorDetectActivity.isPushedToStack)
+        {
+            Intent intent = new Intent(MainActivity2.this, ColorDetectActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
     }
 
