@@ -44,7 +44,7 @@ public class OcrActivity extends AppCompatActivity {
 
         textToSpeech = new TextToSpeech(getApplicationContext(), status -> {
             if (status != TextToSpeech.ERROR) {
-                textToSpeech.setLanguage(Locale.FRENCH);
+                textToSpeech.setLanguage(Locale.ENGLISH);
             }
         });
 

@@ -30,11 +30,11 @@ public class GestureActivity extends AppCompatActivity{
         // Lambda expression à executer lors de l'initialisation du moteur text to speech
         listener = status -> {
             if(status != TextToSpeech.ERROR){
-                textToSpeech.setLanguage(Locale.FRENCH);
+                textToSpeech.setLanguage(Locale.ENGLISH);
             }
         };
         textToSpeech = new TextToSpeech(getApplicationContext(), listener);
-        textToSpeech.setLanguage(new Locale("fr", "FR"));
+        textToSpeech.setLanguage(Locale.ENGLISH);
 
         /*
         ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.gestures);
@@ -75,8 +75,8 @@ public class GestureActivity extends AppCompatActivity{
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 
-            textToSpeech.speak("Geolocalisation", TextToSpeech.QUEUE_FLUSH, null);
-            Toast.makeText(GestureActivity.this, "Geolocalisation", Toast.LENGTH_SHORT).show();
+            textToSpeech.speak("Geolocation", TextToSpeech.QUEUE_FLUSH, null);
+            Toast.makeText(GestureActivity.this, "Geolocation", Toast.LENGTH_SHORT).show();
             geo();
             return super.onFling(e1, e2, velocityX, velocityY);
         }
@@ -92,16 +92,16 @@ public class GestureActivity extends AppCompatActivity{
         @Override
         public void onLongPress(MotionEvent e) {
 
-            textToSpeech.speak("Detection argent", TextToSpeech.QUEUE_FLUSH, null);
-            Toast.makeText(GestureActivity.this, "Detection argent", Toast.LENGTH_SHORT).show();
+            textToSpeech.speak("Money Detection", TextToSpeech.QUEUE_FLUSH, null);
+            Toast.makeText(GestureActivity.this, "Money Detection", Toast.LENGTH_SHORT).show();
             moneyDetect();
             super.onLongPress(e);
         }
 
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e) {
-            textToSpeech.speak("Detection Couleur", TextToSpeech.QUEUE_FLUSH, null);
-            Toast.makeText(GestureActivity.this, "Detection Couleur", Toast.LENGTH_SHORT).show();
+            textToSpeech.speak("Color Detection", TextToSpeech.QUEUE_FLUSH, null);
+            Toast.makeText(GestureActivity.this, "Color Detection", Toast.LENGTH_SHORT).show();
             ColorDetect();
             return super.onSingleTapConfirmed(e);
         }

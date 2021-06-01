@@ -39,12 +39,12 @@ public class MainActivity1 extends AppCompatActivity{
 
         listener = status -> {
             if(status != TextToSpeech.ERROR){
-                textToSpeech.setLanguage(Locale.FRENCH);
+                textToSpeech.setLanguage(Locale.ENGLISH);
             }
         };
 
         textToSpeech = new TextToSpeech(getApplicationContext(), listener);
-        textToSpeech.setLanguage(new Locale("fr", "FR"));
+        textToSpeech.setLanguage(Locale.ENGLISH);
 
         ocrBt.setOnClickListener(new View.OnClickListener() {
             @Override

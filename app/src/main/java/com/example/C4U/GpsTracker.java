@@ -57,7 +57,7 @@ class GpsTracker extends Service implements LocationListener {
                     .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
             if (!isGPSEnabled && !isNetworkEnabled) {
-                Toast.makeText(this, "no internet", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "No internet", Toast.LENGTH_SHORT).show();
             } else {
                 this.canGetLocation = true;
                 // First get location from Network Provider

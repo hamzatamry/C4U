@@ -41,15 +41,15 @@ public class GeoActivity extends AppCompatActivity  {
     public String getLocation() throws IOException {
         GpsTracker gpsTracker = new GpsTracker(GeoActivity.this);
         if (gpsTracker.canGetLocation()) {
-            Geocoder gcd = new Geocoder(this, new Locale("FR"));
+            Geocoder gcd = new Geocoder(this, Locale.FRENCH);
             List<Address> addresses = gcd.getFromLocation(gpsTracker.getLatitude(), gpsTracker.getLongitude(), 1);
             if (addresses.size() > 0) {
                 return addresses.get(0).getAddressLine(0);
             } else {
-                return "Erreur de géolocalisation, veuillez réessayer ultérieurement";
+                return "Geolocation error, please try again";
             }
         } else {
-            return "Erreur de géolocalisation, veuillez réessayer ultérieurement";
+            return "Geolocation error, please try again";
         }
 
     }

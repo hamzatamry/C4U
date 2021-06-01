@@ -60,7 +60,7 @@ public class MoneyDetectActivity extends AppCompatActivity{
         }
         textToSpeech = new TextToSpeech(getApplicationContext(), status -> {
             if (status != TextToSpeech.ERROR) {
-                textToSpeech.setLanguage(Locale.FRENCH);
+                textToSpeech.setLanguage(Locale.ENGLISH);
             }
         });
     }
@@ -98,7 +98,7 @@ public class MoneyDetectActivity extends AppCompatActivity{
                 }
                 @Override
                 public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
-                    value ="Problème de connexion internet ou de permission de stockage";
+                    value ="Problem due to internet connexion or storage permissions";
                     textToSpeech.speak(value, TextToSpeech.QUEUE_FLUSH, null);
                 }
             });

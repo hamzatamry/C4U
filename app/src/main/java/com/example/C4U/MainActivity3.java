@@ -46,12 +46,12 @@ public class MainActivity3 extends AppCompatActivity {
 
         listener = status -> {
             if(status != TextToSpeech.ERROR){
-                textToSpeech.setLanguage(Locale.FRENCH);
+                textToSpeech.setLanguage(Locale.ENGLISH);
             }
         };
 
         textToSpeech = new TextToSpeech(getApplicationContext(), listener);
-        textToSpeech.setLanguage(new Locale("fr", "FR"));
+        textToSpeech.setLanguage(Locale.ENGLISH);
 
         talkbtn=findViewById(R.id.voice_btn);
 
@@ -110,7 +110,7 @@ public class MainActivity3 extends AppCompatActivity {
                             toast = Toast.makeText(context, s, duration);
                             toast.show();
                             break;
-                        case "argent":
+                        case "money":
                             Intent intent2 = new Intent(MainActivity3.this, MoneyDetectActivity.class);
                             startActivity(intent2);
                             toast = Toast.makeText(context, s, duration);
@@ -122,7 +122,7 @@ public class MainActivity3 extends AppCompatActivity {
                             toast = Toast.makeText(context, s, duration);
                             toast.show();
                             break;
-                        case "couleur":
+                        case "color":
                             Intent intent4 = new Intent(MainActivity3.this, ColorDetectActivity.class);
                             startActivity(intent4);
                             toast = Toast.makeText(context, s, duration);

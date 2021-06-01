@@ -1,23 +1,18 @@
 <resources>
     <string name="app_name">C4U</string>
-    <string name="money_btn_label">Detection Argent</string>
-    <string name="ocr_btn_label">Lire une image</string>
-    <string name="geo_btn_label">Ma localisation</string>
-    <string name="setting_menu_label">Paramètres</string>
+    <string name="money_btn_label">Money Detection</string>
+    <string name="ocr_btn_label">Image Content</string>
+    <string name="geo_btn_label">Geolocation</string>
+    <string name="setting_menu_label">Settings</string>
     <string name="help_menu_label">Help</string>
-    <string name="talk_btn_label">Parler</string>
-    <string name="color_btn_label">Detection Couleur</string>
-
-    <string name="money">Detection argent</string>
-    <string name="ocr">OCRr</string>
-    <string name="geo">Geolocalisation</string>
-    <string name="title_activity_main5">MainActivity5</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="talk_btn_label">Talk</string>
+    <string name="color_btn_label">Color Detection</string>
+    <string name="money">Money Detection</string>
+    <string name="ocr">OCR</string>
+    <string name="geo">Geolocation</string>
+    <string name="setting_title">Choose interation method</string>
+    <string name="buttons">Buttons</string>
+    <string name="screen_gestures">Screen Gestures</string>
+    <string name="voice">Voice</string>
+    <string name="air_gestures">Air gestures</string>
 </resources>
