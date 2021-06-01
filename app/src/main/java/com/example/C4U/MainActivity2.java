@@ -107,8 +107,9 @@ public class MainActivity2 extends AppCompatActivity{
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            //textToSpeech.speak(String.valueOf(R.string.geo), TextToSpeech.QUEUE_FLUSH, null);
-            //Toast.makeText(MainActivity2.this, String.valueOf(R.string.geo), Toast.LENGTH_SHORT).show();
+
+            textToSpeech.speak("Geolocalisation", TextToSpeech.QUEUE_FLUSH, null);
+            Toast.makeText(MainActivity2.this, "Geolocalisation", Toast.LENGTH_SHORT).show();
             geo();
             return super.onFling(e1, e2, velocityX, velocityY);
         }
@@ -123,8 +124,9 @@ public class MainActivity2 extends AppCompatActivity{
 
         @Override
         public void onLongPress(MotionEvent e) {
-            textToSpeech.speak(String.valueOf(R.string.money), TextToSpeech.QUEUE_FLUSH, null);
-            Toast.makeText(MainActivity2.this, String.valueOf(R.string.money), Toast.LENGTH_SHORT).show();
+
+            textToSpeech.speak("Detection argent", TextToSpeech.QUEUE_FLUSH, null);
+            Toast.makeText(MainActivity2.this, "Detection argent", Toast.LENGTH_SHORT).show();
             moneyDetect();
             super.onLongPress(e);
         }
@@ -141,20 +143,33 @@ public class MainActivity2 extends AppCompatActivity{
     /*
     public void ocr()
     {
-        Intent intent = new Intent(MainActivity2.this, OcrActivity.class);
-        startActivity(intent);
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack)
+        {
+            Intent intent = new Intent(getApplicationContext(), OcrActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
     }
 
     public void moneyDetect()
     {
-        Intent intent = new Intent(MainActivity2.this, MoneyDetectActivity.class);
-        startActivity(intent);
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack)
+        {
+            Intent intent = new Intent(getApplicationContext(), MoneyDetectActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
     }
 
     public void geo()
     {
-        Intent intent = new Intent(MainActivity2.this, GeoActivity.class);
-        startActivityForResult(intent,REQUEST_CODE);
+        if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack)
+        {
+            Intent intent = new Intent(MainActivity2.this, Geolocalisation.class);
+            //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivityForResult(intent,REQUEST_CODE);
+            //startActivity(intent);
+        }
     }
 
      */
@@ -196,9 +211,16 @@ public class MainActivity2 extends AppCompatActivity{
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
             if (data.hasExtra("loc")) {
                 String localisation =  data.getExtras().getString("loc");
-                Log.d("locationkjgkjhg",localisation);
+
                 Toast.makeText(MainActivity2.this, localisation, Toast.LENGTH_SHORT).show();
-                textToSpeech.speak(localisation,TextToSpeech.QUEUE_FLUSH,null);
+                try {
+                    Thread.sleep(1000);
+                    textToSpeech.setSpeechRate(0.8f);
+                    textToSpeech.speak(localisation,TextToSpeech.QUEUE_FLUSH,null);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
             }
         }
     }

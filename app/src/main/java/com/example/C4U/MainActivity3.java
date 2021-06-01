@@ -122,8 +122,12 @@ public class MainActivity3 extends AppCompatActivity {
                             toast = Toast.makeText(context, s, duration);
                             toast.show();
                             break;
+                        case "couleur":
+                            Intent intent4 = new Intent(MainActivity3.this, ColorDetectActivity.class);
+                            startActivity(intent4);
+                            toast = Toast.makeText(context, s, duration);
+                            toast.show();
                     }
-
                 }
             }
 
