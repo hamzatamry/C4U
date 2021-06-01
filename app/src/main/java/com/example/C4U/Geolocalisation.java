@@ -59,29 +59,10 @@ public class Geolocalisation extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             // if granted
             getCurrentLocation();
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-
-
-
         } else {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
         }
 
-
-        finish();
-        /*tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if(status != TextToSpeech.ERROR) {
-                    tts.setLanguage(Locale.FRANCE);
-                }
-            }
-        });*/
     }
 
     private void getCurrentLocation() {
@@ -119,7 +100,8 @@ public class Geolocalisation extends AppCompatActivity {
                             Log.d("location",locationName);
                             data = new Intent();
                             data.putExtra("loc",locationName);
-                            Geolocalisation.this.setResult(RESULT_OK, data);
+                            setResult(RESULT_OK, data);
+                            finish();
 
 
 
