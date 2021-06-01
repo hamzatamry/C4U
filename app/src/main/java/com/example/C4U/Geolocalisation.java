@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 
 public class Geolocalisation extends AppCompatActivity {
@@ -41,7 +42,7 @@ public class Geolocalisation extends AppCompatActivity {
 
         // initialize fused location
         client = LocationServices.getFusedLocationProviderClient(this);
-        geocoder = new Geocoder(this); // transforme les coordonées en adresse
+        geocoder = new Geocoder(this, Locale.ENGLISH); // transforme les coordonées en adresse
 
         // check permission
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
