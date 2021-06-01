@@ -31,14 +31,14 @@ public class MainActivity2 extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-        gesturesDetector = new GestureDetectorCompat(this,new GestureListener());
 
+        gesturesDetector = new GestureDetectorCompat(this,new GestureListener());     // GestureListener est un listener
+        // Lambda expression à executer lors de l'initialisation du moteur text to speech
         listener = status -> {
             if(status != TextToSpeech.ERROR){
                 textToSpeech.setLanguage(Locale.FRENCH);
             }
         };
-
         textToSpeech = new TextToSpeech(getApplicationContext(), listener);
         textToSpeech.setLanguage(new Locale("fr", "FR"));
 
@@ -75,34 +75,6 @@ public class MainActivity2 extends AppCompatActivity{
          */
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-        return true;
-    }
-
-    @SuppressLint("NonConstantResourceId")
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.param:
-                Intent intent = new Intent(MainActivity2.this, Parametre.class);
-                startActivity(intent);
-                return true;
-            case R.id.help:
-                Toast.makeText(this,"Help",Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return false;
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        textToSpeech = new TextToSpeech(this, listener);
-    }
 
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
@@ -134,7 +106,7 @@ public class MainActivity2 extends AppCompatActivity{
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         gesturesDetector.onTouchEvent(event);
-        int event_type = event.getActionMasked();
+        //int event_type = event.getActionMasked();
         return super.onTouchEvent(event);
     }
 
@@ -163,7 +135,6 @@ public class MainActivity2 extends AppCompatActivity{
         if (!OcrActivity.isPushedToStack && !MoneyDetectActivity.isPushedToStack && !GeoActivity.isPushedToStack)
         {
             Intent intent = new Intent(MainActivity2.this, Geolocalisation.class);
-            //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivityForResult(intent,REQUEST_CODE);
             //startActivity(intent);
         }
@@ -175,7 +146,7 @@ public class MainActivity2 extends AppCompatActivity{
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
             if (data.hasExtra("loc")) {
                 String localisation =  data.getExtras().getString("loc");
-                Toast.makeText(MainActivity2.this, localisation, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity2.this, localisation, Toast.LENGTH_LONG).show();
                 try {
                     Thread.sleep(1000);
                     textToSpeech.setSpeechRate(0.8f);
@@ -187,5 +158,37 @@ public class MainActivity2 extends AppCompatActivity{
             }
         }
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.param:
+                Intent intent = new Intent(MainActivity2.this, Parametre.class);
+                startActivity(intent);
+                return true;
+            case R.id.help:
+                Toast.makeText(this,"Help",Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        textToSpeech = new TextToSpeech(this, listener);
+    }
+
+
 
 }

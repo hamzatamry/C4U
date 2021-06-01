@@ -37,12 +37,13 @@ import java.util.Locale;
 
 
 public class Geolocalisation extends AppCompatActivity {
-    SupportMapFragment supportMapFragment;
     FusedLocationProviderClient client;
     private Geocoder geocoder;
-    TextToSpeech tts;
     public String locationName;
     public Intent data;
+    TextToSpeech textToSpeech;
+    TextToSpeech.OnInitListener listener;
+    //SupportMapFragment supportMapFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class Geolocalisation extends AppCompatActivity {
 
         // initialize fused location
         client = LocationServices.getFusedLocationProviderClient(this);
-        geocoder = new Geocoder(this);
+        geocoder = new Geocoder(this); // transforme les coordonées en adresse
 
         // check permission
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -68,8 +69,6 @@ public class Geolocalisation extends AppCompatActivity {
     private void getCurrentLocation() {
         // initialize task location
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
             //                                          int[] grantResults)
@@ -79,12 +78,11 @@ public class Geolocalisation extends AppCompatActivity {
         }
         Task<Location> task = client.getLastLocation();
         task.addOnSuccessListener(new OnSuccessListener<Location>() {
-            String location_name;
+
             @Override
             public void onSuccess(Location location) {
                 // when succes
                 if( location != null){
-                    //syncMap
                     LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                     List<Address> addresses = null;
                     try {
@@ -95,24 +93,26 @@ public class Geolocalisation extends AppCompatActivity {
                             Address address = addresses.get(0);
                             String locality = address.getLocality();
                             String country = address.getCountryName();
-                            //location_name = address.getAddressLine(0).substring(6,30);
                             locationName = address.getAddressLine(0);
                             Log.d("location",locationName);
+                            Toast.makeText(Geolocalisation.this, locationName, Toast.LENGTH_SHORT).show();
+
                             data = new Intent();
                             data.putExtra("loc",locationName);
                             setResult(RESULT_OK, data);
                             finish();
 
-
-
-
                             //Toast.makeText(Geolocalisation.this, locationName, Toast.LENGTH_SHORT).show();
-                            //tts.setSpeechRate(0.8f);
-                            //tts.speak(locationName, TextToSpeech.QUEUE_ADD, null);
+                            //textToSpeech.setSpeechRate(0.8f);
+                            //textToSpeech.speak(locationName, TextToSpeech.QUEUE_ADD, null);
+
                         }
                         else{
-                            //Toast.makeText(Geolocalisation.this, "endroit inconnu", Toast.LENGTH_SHORT).show();
-                            //tts.speak("unknown location", TextToSpeech.QUEUE_FLUSH, null);
+                            locationName = "endroit inconnu";
+                            data = new Intent();
+                            data.putExtra("loc",locationName);
+                            setResult(RESULT_OK, data);
+                            finish();
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -125,12 +125,7 @@ public class Geolocalisation extends AppCompatActivity {
 
                             //add Marker on map
                             googleMap.addMarker(options);
-
-                            Log.d("msg", "********************************");
-
                              */
-
-
                 }
             }
         });
@@ -149,7 +144,7 @@ public class Geolocalisation extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        /*tts = new TextToSpeech(this,new TextToSpeech.OnInitListener() {
+        /*textToSpeech = new TextToSpeech(this,new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
                 if(status != TextToSpeech.ERROR) {
