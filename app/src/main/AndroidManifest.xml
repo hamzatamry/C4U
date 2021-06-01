@@ -24,6 +24,14 @@
         android:theme="@style/Theme.C4U"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity android:name=".Geolocalisation"
+            android:theme="@android:style/Theme.NoDisplay"></activity>
+
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />

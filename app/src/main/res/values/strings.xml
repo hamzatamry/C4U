@@ -7,4 +7,7 @@
     <string name="help_menu_label">Help</string>
     <string name="talk_btn_label">Parler</string>
     <string name="color_btn_label">Detection Couleur</string>
+    <string name="money">Detection argent</string>
+    <string name="ocr">OCRr</string>
+    <string name="geo">Geolocalisation</string>
 </resources>
