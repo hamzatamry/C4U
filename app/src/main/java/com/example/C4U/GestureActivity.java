@@ -24,7 +24,7 @@ public class GestureActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.gestures_activity);
 
         gesturesDetector = new GestureDetectorCompat(this,new GestureListener());     // GestureListener est un listener
         // Lambda expression à executer lors de l'initialisation du moteur text to speech
@@ -68,6 +68,7 @@ public class GestureActivity extends AppCompatActivity{
 
          */
     }
+
 
 
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
