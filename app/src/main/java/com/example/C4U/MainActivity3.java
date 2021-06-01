@@ -128,7 +128,6 @@ public class MainActivity3 extends AppCompatActivity {
                             toast = Toast.makeText(context, s, duration);
                             toast.show();
                     }
-
                 }
             }
 
