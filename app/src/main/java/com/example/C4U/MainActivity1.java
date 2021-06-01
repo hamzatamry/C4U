@@ -53,13 +53,27 @@ public class MainActivity1 extends AppCompatActivity{
                 startActivity(intent);
             }
         });
-
+        ocrBt.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                textToSpeech.speak(ocrBt.getText().toString(),TextToSpeech.QUEUE_ADD, null);
+                return true;
+            }
+        });
 
         moneyBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity1.this, MoneyDetectActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        moneyBt.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                textToSpeech.speak(moneyBt.getText().toString(),TextToSpeech.QUEUE_ADD, null);
+                return true;
             }
         });
 
@@ -70,7 +84,13 @@ public class MainActivity1 extends AppCompatActivity{
                 startActivity(intent);
             }
         });
-
+        colorBt.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                textToSpeech.speak(colorBt.getText().toString(),TextToSpeech.QUEUE_ADD, null);
+                return true;
+            }
+        });
 
         geoBt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +99,13 @@ public class MainActivity1 extends AppCompatActivity{
                 startActivityForResult(intent,REQUEST_CODE);
             }
         });
-
+        geoBt.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                textToSpeech.speak(geoBt.getText().toString(),TextToSpeech.QUEUE_ADD, null);
+                return true;
+            }
+        });
     }
 
     @Override
